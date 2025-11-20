@@ -179,12 +179,6 @@ const Main = () => {
           </ul>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonial">
-        <h2>Testimonial</h2>
-        <p>나를 추천해준 사람들</p>
-      </section>
     </main>
   );
 };

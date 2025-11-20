@@ -7,8 +7,6 @@ const Header = () => {
     { name: "About", to: "#about" },
     { name: "Skills", to: "#skills" },
     { name: "My Work", to: "#work" },
-    { name: "Testimonial", to: "#testimonial" },
-    { name: "Contact", to: "#content" },
   ];
 
   return (

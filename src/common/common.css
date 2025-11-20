@@ -11,7 +11,10 @@
   --color-accent-variant: var(--color-orange);
   --color-text: var(--color-white);
 }
-
+body {
+  margin: 0;
+  padding: 0;
+}
 * {
   box-sizing: border-box;
 }
@@ -324,4 +327,52 @@ button:focus {
   width: 50px;
   height: 2px;
   background-color: #03e8f9;
+}
+
+/* Footer */
+#contact {
+  background-color: #1b1e26;
+  color: white;
+}
+.contact_links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  font-size: 2rem;
+}
+.contact_link {
+  transition: color 250ms ease-in;
+}
+.contact_link:hover {
+  color: #03e8f9;
+}
+
+@media screen and (max-width: 768px) {
+  .section {
+    padding: 3rem 2rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .description {
+    font-size: 1rem;
+  }
+  #home {
+    padding-bottom: 3rem;
+  }
+  .home_title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .majors {
+    flex-direction: column;
+    align-items: center;
+  }
+  .major {
+    max-width: 25rem;
+  }
+  .job {
+    justify-content: center;
+  }
 }
