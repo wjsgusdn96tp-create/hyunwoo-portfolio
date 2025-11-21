@@ -1,7 +1,7 @@
 import { faHtml5 } from "@fortawesome/free-brands-svg-icons";
 import { faServer } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Main = () => {
@@ -42,29 +42,56 @@ const Main = () => {
     },
     // 프로젝트가 추가될 때마다 여기에 이미지 경로를 넣어줍니다.
   ];
+  // Home 영역 DOM을 직접 가리키기 위한 ref
+  const homeRef = useRef(null);
+  // Home 섹션을 아래로 스크롤할수록 점점 투명하게 만드는 효과
+  useEffect(() => {
+    const home = homeRef.current;
+    if (!home) return; // 혹시라도 ref가 연결 안 되어 있으면 종료
+    // Home 영역의 높이(px)
+    const homeHeight = home.offsetHeight;
+
+    const handleScroll = () => {
+      // 스크롤 비율에 따라 1 → 0으로 줄어드는 값
+      const rawOpacity = 1 - window.scrollY / homeHeight;
+      // 0보다 작아지거나 1보다 커지는 것을 방지하기 위해 0~1로 자르기
+      const opacity = Math.max(0, Math.min(1, rawOpacity));
+
+      home.style.opacity = opacity;
+    };
+    // 스크롤 이벤트 등록
+    window.addEventListener("scroll", handleScroll);
+
+    // 컴포넌트가 사라질 때 이벤트 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <main>
       {/* Home Section */}
       <section id="home">
-        <img
-          className="home_avatar"
-          src="/profile_images/profile.jpg"
-          alt="Profile"
-        />
-        <h2 className="home_title">
-          안녕하세요
-          <br />
-          <strong className="home_title--strong">
-            신입 개발자 전현우입니다.
-          </strong>
-        </h2>
-        <p className="home_description">자신 소개하는 글 </p>
-        <Link
-          className="home_contact"
-          to="#content" // 푸터(Contact)로 이동
-        >
-          연락하기
-        </Link>
+        <div className="home_container" ref={homeRef}>
+          <img
+            className="home_avatar"
+            src="/profile_images/profile.jpg"
+            alt="Profile"
+          />
+          <h2 className="home_title">
+            안녕하세요
+            <br />
+            <strong className="home_title--strong">
+              신입 개발자 전현우입니다.
+            </strong>
+          </h2>
+          <p className="home_description">자신 소개하는 글 </p>
+          <Link
+            className="home_contact"
+            to="#content" // 푸터(Contact)로 이동
+          >
+            연락하기
+          </Link>
+        </div>
       </section>
 
       {/* About Section */}
