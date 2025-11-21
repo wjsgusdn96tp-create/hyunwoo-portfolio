@@ -356,7 +356,6 @@ button:focus {
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
-  font-size: 2rem;
 }
 .contact_link {
   transition: color 250ms ease-in;

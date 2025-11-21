@@ -1,3 +1,5 @@
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -8,8 +10,12 @@ const Footer = () => {
         <p className="description">wjsgusdn1tp@gmail.com</p>
         <ul className="contact_links">
           <li>
-            <Link to="" className="contact_link">
-              깃허브
+            <FontAwesomeIcon icon={faGithub} />
+            <Link
+              to="https://wjsgusdn96tp-create.github.io/hyunwoo-portfolio/"
+              className="contact_link"
+            >
+              https://wjsgusdn96tp-create.github.io/hyunwoo-portfolio/
             </Link>
           </li>
         </ul>
