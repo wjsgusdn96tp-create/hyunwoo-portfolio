@@ -6,8 +6,9 @@ const Footer = () => {
   return (
     <footer id="contact" className="section">
       <div className="max-container">
-        <h2 className="title">푸터 자리</h2>
+        <h2 className="title">Contact Me</h2>
         <p className="description">wjsgusdn1tp@gmail.com</p>
+        <p className="description">wjsgusdn1tp@naver.com</p>
         <ul className="contact_links">
           <li>
             <FontAwesomeIcon icon={faGithub} />

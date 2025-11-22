@@ -99,13 +99,31 @@ const Main = () => {
               신입 개발자 전현우입니다.
             </strong>
           </h2>
-          <p className="home_description">자신 소개하는 글 </p>
+          <p className="home_description">
+            늦게 시작했지만 누구보다 진지하게 개발에 임하고 있습니다. 모르는
+            부분을 그대로 두지 않고 끝까지 해결하는 것을 가장 중요한 태도로
+            생각합니다. 작은 기능 하나도 정확히 이해하며 만드는 개발자가 되고
+            싶습니다.
+          </p>
           <Link
             className="home_contact"
             to="#content" // 푸터(Contact)로 이동
           >
-            연락하기
+            Contact
           </Link>
+        </div>
+        <div className="home_divider">
+          <svg
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+              className="shape-fill"
+            ></path>
+          </svg>
         </div>
       </section>
 

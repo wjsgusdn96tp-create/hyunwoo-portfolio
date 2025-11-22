@@ -117,11 +117,32 @@ button:focus {
 
 /*home*/
 #home {
+  position: relative;
   background-color: #1b1e26;
   color: white;
   padding: 5rem 1rem;
   padding-top: 7rem;
   text-align: center;
+}
+.home_divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.home_divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 60px;
+}
+
+.home_divider .shape-fill {
+  fill: #ffffff;
 }
 .home_avatar {
   width: 250px;
@@ -139,6 +160,9 @@ button:focus {
 }
 .home_description {
   font-size: 1.3rem;
+  max-width: 800px; /* 문장 너무 안 퍼지게 폭 제한 */
+  margin: 1.5rem auto 0; /* 위쪽 여백 + 가운데 정렬 */
+  line-height: 1.7; /* 줄 간격 넉넉하게 */
 }
 .home_contact {
   display: inline-block;
