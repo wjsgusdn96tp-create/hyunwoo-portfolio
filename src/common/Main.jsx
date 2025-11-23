@@ -5,6 +5,20 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Main = () => {
+  useEffect(() => {
+    const hash = window.location.hash; // 예: #skills
+    if (!hash) return;
+
+    const section = document.querySelector(hash);
+    if (section) {
+      const top = section.getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+        top,
+        behavior: "smooth",
+      });
+    }
+  }, []);
   const [codingSkills, setCodingSkills] = useState([
     { name: "HTML", percentage: 15 },
     { name: "CSS", percentage: 23 },
@@ -32,6 +46,7 @@ const Main = () => {
       description: "새미 프로젝트 HTML, CSS",
       image: `${import.meta.env.BASE_URL}profile_images/semi-project.jpg`,
       category: "Team-project",
+      path: "/projects/team/semi",
     },
     {
       id: 2,
@@ -39,6 +54,7 @@ const Main = () => {
       description: "파이널 프로젝트 HTML, CSS",
       image: `${import.meta.env.BASE_URL}profile_images/final-project.jpg`,
       category: "Team-project",
+      path: "/projects/team/final",
     },
     // 나중에 솔로 프로젝트 생기면 이렇게 추가
     // {
@@ -105,12 +121,6 @@ const Main = () => {
             생각합니다. 작은 기능 하나도 정확히 이해하며 만드는 개발자가 되고
             싶습니다.
           </p>
-          <Link
-            className="home_contact"
-            to="#content" // 푸터(Contact)로 이동
-          >
-            Contact
-          </Link>
         </div>
         <div className="home_divider">
           <svg
@@ -158,6 +168,7 @@ const Main = () => {
         <div className="max-container">
           <h2 className="title">My Skills</h2>
           <p className="description">Skills & Attributes</p>
+          <p>내가 배운 기술들 소개</p>
           <div className="skills">
             <section className="skills_coding">
               <h3 className="skills_title">Coding Skills</h3>
@@ -222,7 +233,7 @@ const Main = () => {
                 key={project.id || `placeholder-${index}`}
               >
                 {/* 프로젝트 상세 페이지/외부 링크는 a 태그 유지 */}
-                <Link href="#" target="_blank">
+                <Link to={project.path}>
                   <img
                     src={project.image}
                     alt={project.title}

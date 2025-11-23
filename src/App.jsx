@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import Header from "./common/Header.jsx";
 import Main from "./common/Main.jsx";
 import Footer from "./common/Footer.jsx";
+import Semiproject from "./projects/team/Semiproject.jsx";
+import FinalProject from "./projects/team/FinalProject.jsx";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -12,7 +14,11 @@ const App = () => {
       <Header setActiveSection={setActiveSection} />
 
       <main>
-        <Main />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/projects/team/semi" element={<Semiproject />} />
+          <Route path="/projects/team/final" element={<FinalProject />} />
+        </Routes>
       </main>
 
       <Footer />
