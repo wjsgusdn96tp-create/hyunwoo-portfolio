@@ -158,7 +158,6 @@ const Main = () => {
         <div className="max-container">
           <h2 className="title">My Skills</h2>
           <p className="description">Skills & Attributes</p>
-          <p>내가 배운 기술들 소개</p>
           <div className="skills">
             <section className="skills_coding">
               <h3 className="skills_title">Coding Skills</h3>

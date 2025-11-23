@@ -1,15 +1,10 @@
 /* Global */
 :root {
-  --color-white: #ffffff;
-  --color-white: #050a13;
-  --color-white: #03e8f9;
-  --color-white: #fd6413;
-  --color-white: #1b1e26;
-  --color-primary: var(--color-black);
-  --color-primary-variant: var(--color-gray);
-  --color-accent: var(--color-blue);
-  --color-accent-variant: var(--color-orange);
-  --color-text: var(--color-white);
+  --color-font: #ffffff;
+  --color-bg-dark: #050a13;
+  --color-accent-blue: #03e8f9;
+  --color-accent-orange: #fd6413;
+  --color-bg-gray: #1b1e26;
 }
 body {
   margin: 0;
@@ -160,9 +155,9 @@ button:focus {
 }
 .home_description {
   font-size: 1.3rem;
-  max-width: 800px; /* 문장 너무 안 퍼지게 폭 제한 */
-  margin: 1.5rem auto 0; /* 위쪽 여백 + 가운데 정렬 */
-  line-height: 1.7; /* 줄 간격 넉넉하게 */
+  max-width: 800px;
+  margin: 1.5rem auto 0;
+  line-height: 1.7;
 }
 .home_contact {
   display: inline-block;
@@ -224,6 +219,7 @@ button:focus {
   color: black;
   font-size: 0.8rem;
 }
+
 /* Skills */
 #skills {
   background-color: #1b1e26;
@@ -275,6 +271,7 @@ button:focus {
 .skills_tools {
   padding: 1rem;
 }
+
 .skills_etc {
   padding: 1rem;
   background-color: #050a13;
@@ -388,6 +385,7 @@ button:focus {
   color: #03e8f9;
 }
 
+/* Responsive */
 @media screen and (max-width: 768px) {
   .section {
     padding: 4rem 2rem;
