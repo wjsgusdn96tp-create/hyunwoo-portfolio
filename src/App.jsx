@@ -5,14 +5,15 @@ import Main from "./common/Main.jsx";
 import Footer from "./common/Footer.jsx";
 import Semiproject from "./projects/team/Semiproject.jsx";
 import FinalProject from "./projects/team/FinalProject.jsx";
+import ScrollToTop from "./ScrolltoTop.jsx";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("home");
 
   return (
     <div>
+      <ScrollToTop />
       <Header setActiveSection={setActiveSection} />
-
       <main>
         <Routes>
           <Route path="/" element={<Main />} />
@@ -20,7 +21,6 @@ const App = () => {
           <Route path="/projects/team/final" element={<FinalProject />} />
         </Routes>
       </main>
-
       <Footer />
     </div>
   );
