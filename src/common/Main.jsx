@@ -24,7 +24,6 @@ const Main = () => {
     { name: "CSS", percentage: 23 },
     { name: "JAVA", percentage: 13 },
     { name: "JavaScript", percentage: 17 },
-
     { name: "React", percentage: 18 },
     { name: "NodeJs", percentage: 14 },
   ]);

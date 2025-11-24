@@ -4,21 +4,21 @@ import "./semiProject.css";
 const Semiproject = () => {
   return (
     <div className="semi-project-detail-container">
-      <h1 className="semi-project-title">새미 프로젝트</h1>
+      <h1 className="semi-project-title">세미 프로젝트</h1>
 
       {/* 1. 대표 이미지 */}
       <section className="semi-project-section">
         <img
-          className="semi-project-sub-image"
+          className="semi-top-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-project.jpg`}
-          alt="세미 프로젝트"
+          alt="대표 이미지"
         />
       </section>
 
       {/* 2. 기술 스택 */}
       <section className="semi-project-section">
         <img
-          className="semi-project-sub-image"
+          className="semi-top-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-skill.jpg`}
           alt="기술 스택"
         />
@@ -27,7 +27,7 @@ const Semiproject = () => {
       {/* 3. 프로젝트 소개 */}
       <section className="semi-project-section">
         <img
-          className="semi-project-sub-image"
+          className="semi-top-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-present.jpg`}
           alt="프로젝트 소개"
         />
@@ -36,7 +36,7 @@ const Semiproject = () => {
       {/* 4. 주요 기능 소개 */}
       <section className="semi-project-section">
         <img
-          className="semi-project-sub-image"
+          className="semi-top-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-function.jpg`}
           alt="주요기능"
         />
@@ -44,67 +44,86 @@ const Semiproject = () => {
 
       {/* 5. 역할 분담 */}
       <section className="semi-project-section">
+        <h2 className="semi-section-title">담당 기능</h2>
+
+        <h4 className="semi-small-title">주문하기 전체 흐름</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-oo.jpg`}
           alt="역할 분담"
         />
         <p className="semi-project-desc">
-          저는 주문하기(지도 API 선택 → 옵션 선택 → 장바구니 → 결제)를
-          담당했습니다. 사용자 경험이 끊기지 않도록 흐름을 세심하게
-          설계하였습니다.
+          지도 → 옵션 선택 → 장바구니 → 결제로 이어지는 핵심 흐름을 전체
+          담당했습니다. 사용자 경험을 고려해 화면 전환이 자연스럽도록 UI·로직
+          설계를 전체적으로 구현했습니다.
         </p>
       </section>
 
       {/* 6. 지도 기능 */}
       <section className="semi-project-section">
+        <h2 className="semi-section-title">지도 기능</h2>
+
+        <h4 className="semi-small-title">매장 위치 표시 · 마커 상세정보</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-map.jpg`}
           alt="지도 기능"
         />
         <p className="semi-project-desc">
-          네이버 지도 API를 이용해 매장 위치 표시·마커 기능 구현. 마커 클릭 시
-          DB에 저장된 매장 주소/이름을 자동 연동하여 다음 페이지로 전달했습니다.
+          네이버 지도 API를 사용하여 매장 위치를 지도에 시각적으로 표시했습니다.
+          마커 클릭 시 DB의 매장 정보(주소·이름)를 불러오며, 선택된 정보가
+          자동으로 다음 주문 페이지에 전달되도록 연동했습니다.
         </p>
       </section>
 
-      {/* 7. 옵션 선택창 */}
+      {/* 7. 옵션 선택 */}
       <section className="semi-project-section">
+        <h2 className="semi-section-title">옵션 선택 기능</h2>
+
+        <h4 className="semi-small-title">음료 / 굿즈 옵션 자동 전환</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-option.jpg`}
-          alt="옵션 선택창"
+          alt="옵션 선택"
         />
         <p className="semi-project-desc">
-          음료/굿즈를 구분하여 옵션창 자동 변경. 옵션(샷, 휘핑, 컵 등) 선택 시
-          가격 실시간 반영되도록 구성했습니다.
+          샷 추가, 휘핑, 컵 선택 등 다양한 옵션을 적용할 수 있도록 설계했습니다.
+          옵션 선택 시 가격이 자동 계산되며, 사용자가 선택을 직관적으로 파악할
+          수 있도록 인터페이스를 구성하였습니다.
         </p>
       </section>
 
       {/* 8. 장바구니 */}
       <section className="semi-project-section">
+        <h2 className="semi-section-title">장바구니 기능</h2>
+
+        <h4 className="semi-small-title">총 금액 · 할인 · 반올림 자동 계산</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-cart.jpg`}
           alt="장바구니 기능"
         />
         <p className="semi-project-desc">
-          선택 삭제 / 전체 금액 / 할인 금액 / 반올림 처리 등을 구현했습니다.
-          멤버십 등급에 따른 자동 할인 기능도 포함되어 있습니다.
+          장바구니 목록 관리, 선택 삭제, 총 금액/할인/반올림 계산 로직을
+          구현했습니다. 멤버십 등급에 따라 자동으로 가격이 조정되는 기능도
+          포함했습니다.
         </p>
       </section>
 
-      {/* 9. 구매내역 */}
+      {/* 9. 구매 내역 */}
       <section className="semi-project-section">
+        <h2 className="semi-section-title">구매 내역</h2>
+
+        <h4 className="semi-small-title">로그인 기반 개인화 조회</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-buy.jpg`}
           alt="구매 내역"
         />
         <p className="semi-project-desc">
-          로그인한 사용자 기준으로 본인의 구매 내역만 조회되도록 구현했습니다.
-          주문번호·날짜·매장 정보 등 상세 정보까지 확인 가능합니다.
+          로그인된 사용자 기준으로 본인의 구매 내역만 조회할 수 있도록
+          구현했습니다. 주문 번호 · 날짜 · 매장 정보 · 총 금액까지 상세 정보를
+          제공해 사용자 편의성을 높였습니다.
         </p>
       </section>
 
@@ -117,4 +136,5 @@ const Semiproject = () => {
     </div>
   );
 };
+
 export default Semiproject;
