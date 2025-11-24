@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Redirecting...</title>
+
     <script>
       /*
-        GitHub Pages는 /projects/team/semi 같은 경로를 직접 열면
-        실제 파일이 없다고 생각해서 404.html로 이동시킴.
+        GitHub Pages에서는 React Router의 모든 경로를 직접 열 수 없어서
+        /projects/team/semi 를 열면 404.html로 강제로 보내버린다.
 
-        그래서 404.html에서 우리가 아래처럼 강제로
-        /hyunwoo-portfolio/#/projects/team/semi
-        이런 형태로 바꿔서 React Router로 돌려보내는 역할을 함.
+        그래서 404.html에서 우리가 아래처럼 강제 리다이렉트해서
+        실제 React Router에게 전달해주는 역할을 한다.
       */
 
+      // 현재 경로에서 /hyunwoo-portfolio 를 제거 (basename)
       let redirect = window.location.pathname.replace("/hyunwoo-portfolio", "");
 
-      // 루트('/')일 경우 처리
+      // 루트("/")일 경우 처리
       if (!redirect || redirect === "/") {
         redirect = "";
       }
 
-      // 해시 기반으로 React Router가 읽도록 강제 이동
+      // React Router로 다시 보내기 (# 기반)
       window.location.replace("/hyunwoo-portfolio/#" + redirect);
     </script>
   </head>
