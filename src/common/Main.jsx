@@ -22,9 +22,11 @@ const Main = () => {
   const [codingSkills, setCodingSkills] = useState([
     { name: "HTML", percentage: 15 },
     { name: "CSS", percentage: 23 },
+    { name: "JAVA", percentage: 13 },
     { name: "JavaScript", percentage: 17 },
+
     { name: "React", percentage: 18 },
-    { name: "NodeJs", percentage: 18 },
+    { name: "NodeJs", percentage: 14 },
   ]);
   // 프로젝트 카테고리
   const projectCategories = [
