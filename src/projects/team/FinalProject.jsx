@@ -139,8 +139,7 @@ const FinalProject = () => {
           src={`${import.meta.env.BASE_URL}profile_images/final-vote3.jpg`}
         />
         <p className="final-project-desc">
-          투표 제목과 선택지를 확인한 뒤 직접 투표에 참여할 수 있으며, 남은 투표
-          시간도 제공됩니다.
+          투표 제목과 선택지를 확인한 뒤 직접 투표에 참여할 수 있습니다.
         </p>
 
         <h4 className="final-small-title">투표 결과 분석</h4>
