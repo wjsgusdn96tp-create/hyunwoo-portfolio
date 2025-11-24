@@ -46,17 +46,11 @@ const Semiproject = () => {
       <section className="semi-project-section">
         <h2 className="semi-section-title">담당 기능</h2>
 
-        <h4 className="semi-small-title">주문하기 전체 흐름</h4>
         <img
-          className="semi-project-sub-image"
+          className="semi-top-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-oo.jpg`}
           alt="역할 분담"
         />
-        <p className="semi-project-desc">
-          지도 → 옵션 선택 → 장바구니 → 결제로 이어지는 핵심 흐름을 전체
-          담당했습니다. 사용자 경험을 고려해 화면 전환이 자연스럽도록 UI·로직
-          설계를 전체적으로 구현했습니다.
-        </p>
       </section>
 
       {/* 6. 지도 기능 */}
