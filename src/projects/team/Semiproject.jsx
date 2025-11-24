@@ -31,11 +31,6 @@ const Semiproject = () => {
           src={`${import.meta.env.BASE_URL}profile_images/semi-present.jpg`}
           alt="프로젝트 소개"
         />
-        <p className="semi-project-desc">
-          커피 등 대용량 음료 판매를 위한 웹 기반 주문·결제 서비스를
-          설계했습니다. FastOrder를 목표로 사용자 흐름을 단순화하고 편의성을
-          높였습니다.
-        </p>
       </section>
 
       {/* 4. 주요 기능 소개 */}
@@ -45,10 +40,6 @@ const Semiproject = () => {
           src={`${import.meta.env.BASE_URL}profile_images/semi-function.jpg`}
           alt="주요기능"
         />
-        <p className="semi-project-desc">
-          Pay & Cart 기능을 중심으로 옵션 선택, 장바구니 계산, 할인 적용 등 핵심
-          구매 프로세스를 구현했습니다.
-        </p>
       </section>
 
       {/* 5. 역할 분담 */}

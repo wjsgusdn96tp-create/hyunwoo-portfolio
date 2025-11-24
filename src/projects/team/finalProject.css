@@ -5,7 +5,7 @@
   padding: 20px;
 }
 
-/* 페이지 대제목 */
+/* 메인 제목 */
 .final-project-title {
   font-size: 34px;
   font-weight: 800;
@@ -14,52 +14,77 @@
   color: #222;
 }
 
-/* 각 섹션 */
-.final-project-section {
-  margin-bottom: 55px;
+/* 소제목(설명 아래 작은 문장) */
+.final-project-p {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 30px;
 }
 
-/* 섹션 제목 */
+/* 기능 섹션 제목 (쪽지/투표 제목) */
 .final-section-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 18px;
-  color: #333;
-  border-left: 6px solid #5c6bc0;
-  padding-left: 12px;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #222;
 }
 
-/* 공통 이미지 */
-.final-project-sub-image {
+/* 작은 제목 (이미지 위 작은 기능 타이틀) */
+.final-small-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 25px 0 10px;
+  text-align: center;
+  color: #333;
+}
+
+/* 각 섹션 간 간격 강화 */
+.final-project-section {
+  margin-bottom: 80px;
+}
+
+/* 앞쪽 인트로 이미지(5장) */
+.final-top-image {
   width: 100%;
+  max-width: 620px;
+  display: block;
+  margin: 0 auto 25px;
   border-radius: 12px;
-  margin-bottom: 15px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* 설명 문구 */
-.final-project-desc {
-  margin-top: 10px;
-  font-size: 15px;
-  color: #555;
-  line-height: 1.7;
+/* 기능 이미지 */
+.final-project-sub-image {
+  width: 100%;
+  border-radius: 12px;
+  margin: 15px 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* 뒤로가기 박스 */
-.final-back-button-box {
+/* 기능 설명문 */
+.final-project-desc {
+  max-width: 750px;
+  margin: 0 auto 25px;
   text-align: center;
-  margin-top: 70px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #555;
 }
 
 /* 뒤로가기 버튼 */
+.final-back-button-box {
+  text-align: center;
+  margin: 60px 0;
+}
+
 .final-back-button {
-  display: inline-block;
   padding: 12px 24px;
   background: #222;
   color: #fff;
   border-radius: 8px;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .final-back-button:hover {
