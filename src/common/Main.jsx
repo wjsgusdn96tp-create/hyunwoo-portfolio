@@ -141,7 +141,7 @@ const Main = () => {
       {/* About Section */}
       <section id="about" className="section max-container">
         <h2 className="title">About Me</h2>
-        <p className="description">내 소개글 작성</p>
+
         <ul className="majors">
           <li className="major">
             <FontAwesomeIcon className="major_icon" icon={faHtml5} />
@@ -169,7 +169,7 @@ const Main = () => {
         <div className="max-container">
           <h2 className="title">My Skills</h2>
           <p className="description">Skills & Attributes</p>
-          <p>내가 배운 기술들 소개</p>
+
           <div className="skills">
             <section className="skills_coding">
               <h3 className="skills_title">Coding Skills</h3>
