@@ -44,8 +44,6 @@ const Semiproject = () => {
 
       {/* 5. 역할 분담 */}
       <section className="semi-project-section">
-        <h2 className="semi-section-title">담당 기능</h2>
-
         <img
           className="semi-top-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-oo.jpg`}
@@ -53,72 +51,236 @@ const Semiproject = () => {
         />
       </section>
 
-      {/* 6. 지도 기능 */}
+      {/* 6. 주문 기능 */}
       <section className="semi-project-section">
-        <h2 className="semi-section-title">지도 기능</h2>
+        <h2 className="semi-section-title">주문 기능 (담당: 전현우)</h2>
 
-        <h4 className="semi-small-title">매장 위치 표시 · 마커 상세정보</h4>
+        <div className="semi-my-role">
+          <h3 className="semi-role-title">담당 역할</h3>
+          <p className="semi-role-desc">
+            주문/장바구니 기능의 프론트엔드와 백엔드를 모두 담당했습니다.
+          </p>
+          <ul className="semi-tech-list">
+            <li>
+              <strong>프론트엔드:</strong> Thymeleaf, JavaScript, jQuery, AJAX
+            </li>
+            <li>
+              <strong>백엔드:</strong> Spring Boot, MyBatis로 RESTful API 개발
+            </li>
+            <li>
+              <strong>데이터베이스:</strong> Oracle SQL로 주문 데이터 관리
+            </li>
+            <li>
+              <strong>외부 API:</strong> 네이버 지도 API, 아임포트 결제 API
+            </li>
+          </ul>
+        </div>
+
+        <div className="semi-challenge">
+          <h3 className="semi-challenge-title">어려웠던 점과 해결 방법</h3>
+          <p className="semi-challenge-desc">
+            <strong>문제:</strong> 장바구니에서 여러 상품의 수량과 옵션을 동시에
+            관리하면서 총 금액을 실시간으로 계산하는 것이 복잡했습니다.
+            <br />
+            <strong>해결:</strong> jQuery의 .each() 메서드로 모든 장바구니
+            항목을 순회하면서 개별 계산 후 총합을 업데이트하는 함수를 만들어
+            실시간 가격 업데이트를 구현했습니다.
+          </p>
+        </div>
+
+        {/* 지도 기능 */}
+        <h4 className="semi-small-title">매장 위치 지도</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-map.jpg`}
           alt="지도 기능"
         />
         <p className="semi-project-desc">
-          네이버 지도 API를 사용하여 매장 위치를 지도에 시각적으로 표시했습니다.
-          마커 클릭 시 DB의 매장 정보(주소·이름)를 불러오며, 선택된 정보가
-          자동으로 다음 주문 페이지에 전달되도록 연동했습니다.
+          네이버 지도 API를 사용하여 4개 매장의 위치를 마커로 표시했습니다. 마커
+          클릭 시 매장 정보가 표시되며, 매장 선택 시 해당 메뉴 페이지로
+          이동합니다.
         </p>
-      </section>
 
-      {/* 7. 옵션 선택 */}
-      <section className="semi-project-section">
-        <h2 className="semi-section-title">옵션 선택 기능</h2>
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">핵심 코드</h4>
+          <pre className="semi-code-block">
+            {`// 네이버 지도 API - 마커 생성 및 클릭 이벤트
+const map = new naver.maps.Map("map", {
+    center: new naver.maps.LatLng(37.5338151, 126.8969784),
+    zoom: 17
+});
 
-        <h4 className="semi-small-title">음료 / 굿즈 옵션 자동 전환</h4>
+const marker1 = new naver.maps.Marker({
+    position: new naver.maps.LatLng(37.5340956, 126.8969507),
+    map: map
+});
+
+// 마커 클릭 시 매장 정보 표시
+naver.maps.Event.addListener(marker1, "click", function() {
+    infoWindow = new naver.maps.InfoWindow({
+        content: "<div><a href='/product/productList?shopName=" 
+                 + shopName + "'>" + shopName + "</a></div>"
+    });
+    infoWindow.open(map, marker1);
+});`}
+          </pre>
+        </div>
+
+        {/* 옵션 선택 */}
+        <h4 className="semi-small-title">옵션 선택 기능</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-option.jpg`}
           alt="옵션 선택"
         />
         <p className="semi-project-desc">
-          샷 추가, 휘핑, 컵 선택 등 다양한 옵션을 적용할 수 있도록 설계했습니다.
-          옵션 선택 시 가격이 자동 계산되며, 사용자가 선택을 직관적으로 파악할
-          수 있도록 인터페이스를 구성하였습니다.
+          상품 종류(음료/디저트/굿즈)에 따라 옵션이 동적으로 표시됩니다. 샷
+          추가, 휘핑 크림, 사이즈 선택 시 가격이 실시간으로 계산됩니다.
         </p>
-      </section>
 
-      {/* 8. 장바구니 */}
-      <section className="semi-project-section">
-        <h2 className="semi-section-title">장바구니 기능</h2>
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">핵심 코드</h4>
+          <pre className="semi-code-block">
+            {`// 수량 증가 시 가격 계산
+$("#drinkBox .button-plus1").on("click", function() {
+    const optionCount = $("#drinkBox .order-option-count").text();
+    const shotCount = $("#drinkBox .order-option-shotcount").text();
+    const creamCount = $("#drinkBox .order-option-creamcount").text();
+    
+    const plusCount = Number(optionCount) + 1;
+    if(optionCount == 10) return;
+    
+    let sizeCount = selectedSize == "XL" ? 1 : 0;
+    
+    // 총 금액 = 기본가 + 사이즈 + 샷 + 크림
+    const totalPrice = drinkBasePrice * plusCount;
+    const sizeTotal = sizePrice * sizeCount * plusCount;
+    const shotTotal = shotCount * shotPay * plusCount;
+    const creamTotal = creamCount * creamPay * plusCount;
+    const payPrice = totalPrice + sizeTotal + shotTotal + creamTotal;
+    
+    $("#drinkBox .order-option-totalprice").text(payPrice);
+});`}
+          </pre>
+        </div>
 
-        <h4 className="semi-small-title">총 금액 · 할인 · 반올림 자동 계산</h4>
+        {/* 장바구니 */}
+        <h4 className="semi-small-title">장바구니 기능</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-cart.jpg`}
-          alt="장바구니 기능"
+          alt="장바구니"
         />
         <p className="semi-project-desc">
-          장바구니 목록 관리, 선택 삭제, 총 금액/할인/반올림 계산 로직을
-          구현했습니다. 멤버십 등급에 따라 자동으로 가격이 조정되는 기능도
-          포함했습니다.
+          장바구니 목록 관리, 수량 조절, 선택 삭제 기능을 구현했습니다. 멤버십
+          등급에 따라 할인율이 자동 적용됩니다.
         </p>
-      </section>
 
-      {/* 9. 구매 내역 */}
-      <section className="semi-project-section">
-        <h2 className="semi-section-title">구매 내역</h2>
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">핵심 코드</h4>
+          <pre className="semi-code-block">
+            {`// 장바구니 총 금액 계산
+function total() {
+    let totalProduct = 0;
+    let totalDiscount = 0;
+    let totalCount = 0;
+    
+    $(".cartlist").each(function() {
+        let priceProduct = Number($(this).find(".price-product").text());
+        let priceDiscount = Number($(this).find(".price-discount").text());
+        let priceCount = Number($(this).find(".quantity").text());
+        
+        priceDiscount = Math.round(priceDiscount / 10) * 10;
+        
+        totalDiscount += priceDiscount;
+        totalProduct += priceProduct;
+        totalCount += priceCount;
+    });
+    
+    let totalpay = totalProduct - totalDiscount;
+    
+    $(".product-totalprice").text(totalProduct);
+    $(".total-discount").text(totalDiscount);
+    $(".total-price").text(totalpay);
+}
 
-        <h4 className="semi-small-title">로그인 기반 개인화 조회</h4>
+// Backend - 장바구니 저장
+@PostMapping(value="/DrumtongCart")
+@ResponseBody
+public int insertCart(CartItem ct, 
+    @SessionAttribute(required = false) Member member) {
+    ct.setMemberNo(member.getMemberNo());
+    int result = orderService.insertCart(ct);
+    return result;
+}`}
+          </pre>
+        </div>
+
+        {/* 구매 내역 */}
+        <h4 className="semi-small-title">구매 내역 조회</h4>
         <img
           className="semi-project-sub-image"
           src={`${import.meta.env.BASE_URL}profile_images/semi-buy.jpg`}
           alt="구매 내역"
         />
         <p className="semi-project-desc">
-          로그인된 사용자 기준으로 본인의 구매 내역만 조회할 수 있도록
-          구현했습니다. 주문 번호 · 날짜 · 매장 정보 · 총 금액까지 상세 정보를
-          제공해 사용자 편의성을 높였습니다.
+          결제 완료 시 장바구니 데이터를 주문 테이블로 이동합니다. 트랜잭션
+          처리로 데이터 일관성을 보장하며, 회원별 구매 내역을 조회할 수
+          있습니다.
         </p>
+
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">핵심 코드</h4>
+          <pre className="semi-code-block">
+            {`// Service - 트랜잭션 처리
+@Transactional
+public int insertOrderTbl(OrderTbl otb) {
+    // 주문 번호 생성
+    int orderNo = orderDao.getorderNo();
+    otb.setOrderNo(orderNo);
+    
+    // 주문 테이블에 저장
+    int orderTbl = orderDao.insertOrderTbl(otb);
+    
+    // 장바구니 데이터 조회
+    List<CartItem> list = orderDao.selectCartList(param);
+    
+    // 장바구니 → 주문 상세 테이블로 이동
+    for(int i = 0; i < list.size(); i++) {
+        CartItem o = list.get(i);
+        DetailsTbl dtl = new DetailsTbl();
+        dtl.setCupChoice(o.getCupChoice());
+        dtl.setCount(o.getCount());
+        dtl.setOrderNo(orderNo);
+        dtl.setPay(o.getPay());
+        
+        int resultDt = orderDao.insertDetailsTbl(dtl);
+    }
+    
+    // 장바구니 삭제
+    int result = orderDao.deleteCart(param);
+    return result;
+}`}
+          </pre>
+        </div>
+      </section>
+
+      {/* GitHub 링크 */}
+      <section className="semi-project-section">
+        <div className="semi-github-box">
+          <h3 className="semi-github-title">프로젝트 코드 보기</h3>
+          <button
+            onClick={() =>
+              window.open(
+                "https://github.com/wjsgusdn96tp-create/new_drumtong_project",
+                "_blank"
+              )
+            }
+            className="semi-github-link"
+          >
+            GitHub 저장소 바로가기 →
+          </button>
+        </div>
       </section>
 
       {/* 뒤로가기 */}

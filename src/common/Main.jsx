@@ -20,12 +20,12 @@ const Main = () => {
     }
   }, []);
   const [codingSkills, setCodingSkills] = useState([
-    { name: "HTML", percentage: 15 },
-    { name: "CSS", percentage: 23 },
-    { name: "JAVA", percentage: 13 },
-    { name: "JavaScript", percentage: 17 },
-    { name: "React", percentage: 18 },
-    { name: "NodeJs", percentage: 14 },
+    { name: "HTML", level: "중" },
+    { name: "CSS", level: "중" },
+    { name: "JAVA", level: "중" },
+    { name: "JavaScript", level: "중" },
+    { name: "React", level: "중" },
+    { name: "NodeJs", level: "중" },
   ]);
   // 프로젝트 카테고리
   const projectCategories = [
@@ -58,13 +58,14 @@ const Main = () => {
       path: "/projects/team/final",
     },
     // 나중에 솔로 프로젝트 생기면 이렇게 추가
-    // {
-    //   id: 3,
-    //   title: "Project #3",
-    //   description: "솔로 프로젝트 예시",
-    //   image: "/profile_images/solo-project.jpg",
-    //   category: "Solo-project", // 솔로 프로젝트
-    // },
+    {
+      id: 3,
+      title: "Project #3",
+      description: "솔로 프로젝트 예시",
+      //   image: "/profile_images/solo-project.jpg",
+      category: "Solo-project", // 솔로 프로젝트
+      path: "/projects/solo/todo",
+    },
   ];
   // 선택된 카테고리에 따라 필터링된 프로젝트 목록
   const filteredProjects =
@@ -74,36 +75,11 @@ const Main = () => {
   // 만약 선택된 카테고리가 "All" 이면 → projects 배열 전체 사용
   // 아니면 → project.category 가 "Solo-project" 또는 "Team-project" 인 것만 골라서 사용
 
-  // Home 영역 DOM을 직접 가리키기 위한 ref
-  const homeRef = useRef(null);
-  // Home 섹션을 아래로 스크롤할수록 점점 투명하게 만드는 효과
-  useEffect(() => {
-    const home = homeRef.current;
-    if (!home) return; // 혹시라도 ref가 연결 안 되어 있으면 종료
-    // Home 영역의 높이(px)
-    const homeHeight = home.offsetHeight;
-
-    const handleScroll = () => {
-      // 스크롤 비율에 따라 1 → 0으로 줄어드는 값
-      const rawOpacity = 1 - window.scrollY / homeHeight;
-      // 0보다 작아지거나 1보다 커지는 것을 방지하기 위해 0~1로 자르기
-      const opacity = Math.max(0, Math.min(1, rawOpacity));
-
-      home.style.opacity = opacity;
-    };
-    // 스크롤 이벤트 등록
-    window.addEventListener("scroll", handleScroll);
-
-    // 컴포넌트가 사라질 때 이벤트 제거
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   return (
     <main>
       {/* Home Section */}
       <section id="home">
-        <div className="home_container" ref={homeRef}>
+        <div className="home_container">
           <img
             className="home_avatar"
             src={`${import.meta.env.BASE_URL}profile_images/profile.jpg`}
@@ -156,10 +132,11 @@ const Main = () => {
         </ul>
         <ul className="jobs">
           <li className="job">
-            <img src={`${import.meta.env.BASE_URL}profile_images/khlogo.jpg`} />
             <div>
-              <p className="job_name">수료 학생 (KH 교육원)</p>
-              <p className="job_period">2025 05 14 ~ 2025 11 04</p>
+              <p className="job_name">
+                (디지털컨버전스) React & Spring 활용 자바(Java) 개발자 양성과정
+              </p>
+              <p className="job_period">KH 교육 이수 2025 05 14 ~ 2025 11 04</p>
             </div>
           </li>
         </ul>
@@ -178,11 +155,17 @@ const Main = () => {
                   <li key={index}>
                     <div>
                       <span>{skill.name}</span>
-                      <span>{`${skill.percentage}%`}</span>
-                    </div>
-                    {/* 게이지 바: skill.percentage 값을 style 속성에 동적으로 적용 */}
-                    <div>
-                      <div style={{ width: `${skill.percentage}%` }}></div>
+                      <div className="skill_levels">
+                        <span className={skill.level === "하" ? "active" : ""}>
+                          하
+                        </span>
+                        <span className={skill.level === "중" ? "active" : ""}>
+                          중
+                        </span>
+                        <span className={skill.level === "상" ? "active" : ""}>
+                          상
+                        </span>
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -193,6 +176,7 @@ const Main = () => {
               <ul>
                 <li>Visual Studio Code</li>
                 <li>Intellij</li>
+                <li>Oracle SQL Developer</li>
               </ul>
             </section>
             <section className="skills_etc">
