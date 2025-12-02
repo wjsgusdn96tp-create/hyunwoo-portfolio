@@ -160,7 +160,7 @@
   line-height: 1.6;
   margin: 10px 0 20px 0;
   max-width: 100%;
-  word-wrap: break-word;
+  white-space: pre;
 }
 
 /* GitHub 링크 박스 */
@@ -215,9 +215,11 @@
 }
 @media screen and (max-width: 768px) {
   .semi-code-block {
-    font-size: 11px;
-    padding: 15px;
-    line-height: 1.5;
+    font-size: 10px;
+    padding: 10px;
+    line-height: 1.4;
+    white-space: pre;
+    overflow-x: scroll;
   }
 
   .semi-crud-box {
