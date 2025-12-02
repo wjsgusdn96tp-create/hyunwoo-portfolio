@@ -236,10 +236,23 @@
   font-size: 13px;
   line-height: 1.6;
   margin: 10px 0 20px 0;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .final-github-desc {
   font-size: 15px;
   color: #666;
   margin-bottom: 20px;
+}
+@media screen and (max-width: 768px) {
+  .final-code-block {
+    font-size: 11px;
+    padding: 15px;
+    line-height: 1.5;
+  }
+
+  .final-crud-box {
+    padding: 15px;
+  }
 }

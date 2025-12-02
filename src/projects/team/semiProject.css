@@ -159,6 +159,8 @@
   font-size: 13px;
   line-height: 1.6;
   margin: 10px 0 20px 0;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 /* GitHub 링크 박스 */
@@ -210,4 +212,15 @@
 
 .semi-back-button:hover {
   background: #444;
+}
+@media screen and (max-width: 768px) {
+  .semi-code-block {
+    font-size: 11px;
+    padding: 15px;
+    line-height: 1.5;
+  }
+
+  .semi-crud-box {
+    padding: 15px;
+  }
 }
