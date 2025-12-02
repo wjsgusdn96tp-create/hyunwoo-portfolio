@@ -29,8 +29,8 @@ const Main = () => {
   ]);
   // 프로젝트 카테고리
   const projectCategories = [
-    { name: "All", count: 2 },
-    { name: "Solo-project", count: 0 },
+    { name: "All", count: 3 },
+    { name: "Solo-project", count: 1 },
     { name: "Team-project", count: 2 },
   ];
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -58,13 +58,14 @@ const Main = () => {
       path: "/projects/team/final",
     },
     // 나중에 솔로 프로젝트 생기면 이렇게 추가
+
     {
       id: 3,
       title: "Project #3",
-      description: "솔로 프로젝트 예시",
+      description: "계획표",
       //   image: "/profile_images/solo-project.jpg",
       category: "Solo-project", // 솔로 프로젝트
-      path: "/projects/solo/todo",
+      path: "/projects/solo/schedule",
     },
   ];
   // 선택된 카테고리에 따라 필터링된 프로젝트 목록
