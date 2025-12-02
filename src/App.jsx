@@ -6,6 +6,7 @@ import Footer from "./common/Footer.jsx";
 import Semiproject from "./projects/team/Semiproject.jsx";
 import FinalProject from "./projects/team/FinalProject.jsx";
 import ScrollToTop from "./ScrolltoTop.jsx";
+import Schedule from "./projects/solo/schedule/Schedule.jsx";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/projects/team/semi" element={<Semiproject />} />
           <Route path="/projects/team/final" element={<FinalProject />} />
+          <Route path="/projects/solo/schedule" element={<Schedule />} />
         </Routes>
       </main>
       <Footer />
