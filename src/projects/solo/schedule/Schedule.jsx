@@ -5,7 +5,7 @@ import "moment/locale/ko";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Swal from "sweetalert2"; // 추가
+import Swal from "sweetalert2";
 
 const Schedule = () => {
   const SERVER_HOST = import.meta.env.VITE_BACK_SERVER;
@@ -34,17 +34,15 @@ const Schedule = () => {
   const localizer = momentLocalizer(moment);
 
   const [events, setEvents] = useState([]);
-  // 컴포넌트 로드 시 일정 목록 가져오기
+
   useEffect(() => {
     axios
       .get(SERVER_HOST + "/schedule/list")
       .then((res) => {
-        // DB 데이터를 캘린더 형식으로 변환
         const scheduleList = res.data.map((item) => ({
           title: item.scheduleTitle,
           start: new Date(item.scheduleDate + " " + item.startTime),
           end: new Date(item.scheduleDate + " " + item.endTime),
-          content: item.scheduleContent,
           scheduleNo: item.scheduleNo,
         }));
         setEvents(scheduleList);
@@ -53,20 +51,22 @@ const Schedule = () => {
         console.error(err);
       });
   }, []);
+
   const [showModal, setShowModal] = useState(false);
+
+  // ============================================
+  // 📍 수정 1: newEvent에서 content 제거
+  // ============================================
   const [newEvent, setNewEvent] = useState({
     title: "",
-    content: "",
     start: null,
     end: null,
   });
 
-  // 오늘 날짜 (시간 제외)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const handleSelectSlot = ({ start, end }) => {
-    // 과거 날짜 선택 막기
     if (start < today) {
       Swal.fire({
         icon: "warning",
@@ -78,9 +78,11 @@ const Schedule = () => {
       return;
     }
 
+    // ============================================
+    // 📍 수정 2: setNewEvent에서 content 제거
+    // ============================================
     setNewEvent({
       title: "",
-      content: "",
       start: start,
       end: end,
     });
@@ -93,39 +95,75 @@ const Schedule = () => {
   };
 
   const handleSave = () => {
-    if (newEvent.title) {
-      axios
-        .post(SERVER_HOST + "/schedule/insert", {
-          scheduleTitle: newEvent.title,
-          scheduleContent: newEvent.content,
-          scheduleDate: moment(newEvent.start).format("YYYY-MM-DD"),
-          startTime: moment(newEvent.start).format("HH:mm"),
-          endTime: moment(newEvent.end).format("HH:mm"),
-        })
-        .then((res) => {
-          if (res.data > 0) {
-            setEvents([...events, newEvent]);
-            setShowModal(false);
-            Swal.fire({
-              icon: "success",
-              title: "등록 완료",
-              text: "일정이 등록되었습니다.",
-              confirmButtonText: "확인",
-              confirmButtonColor: "#4285f4",
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
+    if (!newEvent.title) {
+      Swal.fire({
+        icon: "warning",
+        title: "제목 입력",
+        text: "제목을 입력해주세요.",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#4285f4",
+      });
+      return;
+    }
+
+    const isOverlap = events.some((event) => {
+      const eventStart = new Date(event.start).getTime();
+      const eventEnd = new Date(event.end).getTime();
+      const newStart = new Date(newEvent.start).getTime();
+      const newEnd = new Date(newEvent.end).getTime();
+
+      return (
+        (newStart >= eventStart && newStart < eventEnd) ||
+        (newEnd > eventStart && newEnd <= eventEnd) ||
+        (newStart <= eventStart && newEnd >= eventEnd)
+      );
+    });
+
+    if (isOverlap) {
+      Swal.fire({
+        icon: "warning",
+        title: "시간 중복",
+        text: "이미 일정이 있는 시간대입니다.",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#4285f4",
+      });
+      return;
+    }
+
+    // ============================================
+    // 📍 수정 3: axios 요청에서 scheduleContent null로 변경
+    // ============================================
+    axios
+      .post(SERVER_HOST + "/schedule/insert", {
+        scheduleTitle: newEvent.title,
+        scheduleContent: null, // ⭐ null로 전송
+        scheduleDate: moment(newEvent.start).format("YYYY-MM-DD"),
+        startTime: moment(newEvent.start).format("HH:mm"),
+        endTime: moment(newEvent.end).format("HH:mm"),
+      })
+      .then((res) => {
+        if (res.data > 0) {
+          setEvents([...events, newEvent]);
+          setShowModal(false);
           Swal.fire({
-            icon: "error",
-            title: "등록 실패",
-            text: "일정 등록에 실패했습니다.",
+            icon: "success",
+            title: "등록 완료",
+            text: "일정이 등록되었습니다.",
             confirmButtonText: "확인",
             confirmButtonColor: "#4285f4",
           });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "등록 실패",
+          text: "일정 등록에 실패했습니다.",
+          confirmButtonText: "확인",
+          confirmButtonColor: "#4285f4",
         });
-    }
+      });
   };
 
   const handleClose = () => {
@@ -189,21 +227,15 @@ const Schedule = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="schedule-modal-field">
-              <label className="schedule-modal-label">내용</label>
-              <textarea
-                className="schedule-modal-textarea"
-                name="content"
-                value={newEvent.content}
-                onChange={handleInputChange}
-              />
-            </div>
+            {/* ============================================ */}
+            {/* 📍 수정 4: 내용 입력 칸 완전히 삭제 */}
+            {/* ============================================ */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">시작</label>
               <input
                 className="schedule-modal-input"
                 type="datetime-local"
-                min={moment(today).format("YYYY-MM-DDTHH:mm")} // 과거 날짜 선택 불가
+                min={moment(today).format("YYYY-MM-DDTHH:mm")}
                 value={moment(newEvent.start).format("YYYY-MM-DDTHH:mm")}
                 onChange={(e) =>
                   setNewEvent({ ...newEvent, start: new Date(e.target.value) })
@@ -215,7 +247,7 @@ const Schedule = () => {
               <input
                 className="schedule-modal-input"
                 type="datetime-local"
-                min={moment(newEvent.start).format("YYYY-MM-DDTHH:mm")} // 시작 시간 이후만 선택 가능
+                min={moment(newEvent.start).format("YYYY-MM-DDTHH:mm")}
                 value={moment(newEvent.end).format("YYYY-MM-DDTHH:mm")}
                 onChange={(e) =>
                   setNewEvent({ ...newEvent, end: new Date(e.target.value) })
