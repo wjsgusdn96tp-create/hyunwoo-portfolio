@@ -8,3 +8,7 @@ npm install @fortawesome/fontawesome-svg-core
 npm install @fortawesome/react-fontawesome
 npm install @fortawesome/free-brands-svg-icons
 npm install @fortawesome/free-solid-svg-icons
+
+npm install moment
+npm install react-big-calendar
+npm install sweetalert2
