@@ -78,6 +78,9 @@ const Schedule = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  // 지금 시간 (분 단위 비교용)
+  const now = new Date();
+
   // 캘린더 빈 공간 클릭 시 실행 (일정 등록 모달 열기)
   const clickEmptySpace = ({ start, end }) => {
     // 시간이 00:00:00인지 확인 (분 단위로 계산)
@@ -125,6 +128,18 @@ const Schedule = () => {
 
   // 일정 저장 버튼 클릭 시
   const saveSchedule = () => {
+    // 과거 시간 등록 불가
+    if (newSchedule.start < now) {
+      Swal.fire({
+        icon: "warning",
+        title: "과거 시간 선택 불가",
+        text: "현재 시간보다 이전 일정은 등록할 수 없습니다.",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#4285f4",
+      });
+      return;
+    }
+
     // 제목이 비어있으면 경고
     if (!newSchedule.title) {
       Swal.fire({
@@ -176,7 +191,16 @@ const Schedule = () => {
       .then((res) => {
         if (res.data > 0) {
           // 등록 성공 (result > 0)
-          setScheduleList([...scheduleList, newSchedule]); // 화면에 일정 추가
+          // DB에서 다시 가져오기
+          axios.get(SERVER_HOST + "/schedule/list").then((res) => {
+            const list = res.data.map((item) => ({
+              title: item.scheduleTitle,
+              start: new Date(item.scheduleDate + " " + item.startTime),
+              end: new Date(item.scheduleDate + " " + item.endTime),
+              scheduleNo: item.scheduleNo,
+            }));
+            setScheduleList(list);
+          });
           setShowModal(false); // 모달 닫기
           Swal.fire({
             icon: "success",
@@ -212,6 +236,18 @@ const Schedule = () => {
 
   // 일정 수정 버튼 클릭 시
   const updateSchedule = () => {
+    // 과거 시간 수정 불가
+    if (selectedSchedule.start < now) {
+      Swal.fire({
+        icon: "warning",
+        title: "과거 시간 선택 불가",
+        text: "현재 시간보다 이전으로 수정할 수 없습니다.",
+        confirmButtonText: "확인",
+        confirmButtonColor: "#4285f4",
+      });
+      return;
+    }
+
     // 제목이 비어있으면 경고
     if (!selectedSchedule.title) {
       Swal.fire({
@@ -225,17 +261,21 @@ const Schedule = () => {
     }
 
     // 시간 중복 체크 (자기 자신은 제외)
+    // some 함수: 배열의 각 항목을 하나씩 검사하여 조건에 맞는 게 하나라도 있으면 true 반환
     const isOverlap = scheduleList.some((schedule) => {
       // 자기 자신은 중복 체크에서 제외
+      // 예: 원래 12시~13시 일정을 12시~14시로 수정할 때, 자기 자신과는 중복 체크 안 함
       if (schedule.scheduleNo === selectedSchedule.scheduleNo) {
-        return false;
+        return false; // 자기 자신이면 false 반환 (중복 아님)
       }
 
-      const scheduleStart = new Date(schedule.start).getTime();
-      const scheduleEnd = new Date(schedule.end).getTime();
-      const newStart = new Date(selectedSchedule.start).getTime();
-      const newEnd = new Date(selectedSchedule.end).getTime();
+      // 시간을 숫자로 변환 (비교하기 쉽게)
+      const scheduleStart = new Date(schedule.start).getTime(); // 기존 일정 시작 (밀리초)
+      const scheduleEnd = new Date(schedule.end).getTime(); // 기존 일정 종료 (밀리초)
+      const newStart = new Date(selectedSchedule.start).getTime(); // 수정할 일정 시작 (밀리초)
+      const newEnd = new Date(selectedSchedule.end).getTime(); // 수정할 일정 종료 (밀리초)
 
+      // 시간이 겹치는지 확인 (3가지 경우)
       return (
         (newStart >= scheduleStart && newStart < scheduleEnd) ||
         (newEnd > scheduleStart && newEnd <= scheduleEnd) ||
@@ -243,6 +283,7 @@ const Schedule = () => {
       );
     });
 
+    // 중복되면 경고창 띄우고 함수 종료
     if (isOverlap) {
       Swal.fire({
         icon: "warning",
@@ -254,10 +295,9 @@ const Schedule = () => {
       return;
     }
 
-    // 백엔드로 수정 요청 (PUT 요청)
     axios
-      .put(SERVER_HOST + "/schedule/update", {
-        scheduleNo: selectedSchedule.scheduleNo, // 수정할 일정 번호
+      .patch(SERVER_HOST + "/schedule/update", {
+        scheduleNo: selectedSchedule.scheduleNo,
         scheduleTitle: selectedSchedule.title,
         scheduleContent: null,
         scheduleDate: moment(selectedSchedule.start).format("YYYY-MM-DD"),
@@ -266,16 +306,15 @@ const Schedule = () => {
       })
       .then((res) => {
         if (res.data > 0) {
-          // 수정 성공
-          // 화면의 일정 목록 업데이트 (수정된 일정만 교체)
-          const updatedList = scheduleList.map(
-            (schedule) =>
-              schedule.scheduleNo === selectedSchedule.scheduleNo
-                ? selectedSchedule // 수정된 일정으로 교체
-                : schedule // 나머지는 그대로
+          const updatedList = scheduleList.map((schedule) =>
+            schedule.scheduleNo === selectedSchedule.scheduleNo
+              ? selectedSchedule
+              : schedule
           );
+
           setScheduleList(updatedList);
-          setShowDetailModal(false); // 모달 닫기
+          setShowDetailModal(false);
+
           Swal.fire({
             icon: "success",
             title: "수정 완료",
@@ -297,39 +336,87 @@ const Schedule = () => {
       });
   };
 
+  const scheduleDelete = () => {
+    // 삭제 확인 물어보기
+    Swal.fire({
+      icon: "warning",
+      title: "일정 삭제",
+      text: "정말 삭제하시겠습니까?",
+      showCancelButton: true, // 취소 버튼 표시
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      confirmButtonColor: "#d33", // 빨간색
+      cancelButtonColor: "#4285f4",
+    }).then((result) => {
+      // 확인 버튼 클릭 시에만 삭제 실행
+      if (result.isConfirmed) {
+        axios
+          .delete(
+            SERVER_HOST + "/schedule/delete/" + selectedSchedule.scheduleNo
+          )
+          .then((res) => {
+            if (res.data > 0) {
+              const updatedList = scheduleList.filter(
+                (schedule) =>
+                  schedule.scheduleNo !== selectedSchedule.scheduleNo
+              );
+
+              setScheduleList(updatedList);
+              setShowDetailModal(false);
+
+              Swal.fire({
+                icon: "success",
+                title: "삭제 완료",
+                text: "일정이 삭제되었습니다.",
+                confirmButtonText: "확인",
+                confirmButtonColor: "#4285f4",
+              });
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire({
+              icon: "error",
+              title: "삭제 실패",
+              text: "일정 삭제가 실패했습니다.",
+              confirmButtonText: "확인",
+              confirmButtonColor: "#4285f4",
+            });
+          });
+      }
+    });
+  };
   // 캘린더 날짜 표시 형식 설정
   const formats = {
-    dateFormat: "D", // 날짜만 표시
-    dayFormat: "D일 ddd", // 예: 7일 토
-    weekdayFormat: "ddd", // 요일
-    monthHeaderFormat: "YYYY년 M월", // 월 헤더
-    dayHeaderFormat: "M월 D일 dddd", // 일 헤더
+    dateFormat: "D",
+    dayFormat: "D일 ddd",
+    weekdayFormat: "ddd",
+    monthHeaderFormat: "YYYY년 M월",
+    dayHeaderFormat: "M월 D일 dddd",
     dayRangeHeaderFormat: ({ start, end }) =>
-      `${moment(start).format("M월 D일")} - ${moment(end).format("M월 D일")}`, // 주 범위
+      `${moment(start).format("M월 D일")} - ${moment(end).format("M월 D일")}`,
     agendaHeaderFormat: ({ start, end }) =>
-      `${moment(start).format("M월 D일")} - ${moment(end).format("M월 D일")}`, // 일정 범위
-    agendaDateFormat: "M월 D일 dddd", // 일정 날짜
-    agendaTimeFormat: "A h:mm", // 일정 시간 (오전/오후)
+      `${moment(start).format("M월 D일")} - ${moment(end).format("M월 D일")}`,
+    agendaDateFormat: "M월 D일 dddd",
+    agendaTimeFormat: "A h:mm",
     agendaTimeRangeFormat: ({ start, end }) =>
-      `${moment(start).format("A h:mm")} - ${moment(end).format("A h:mm")}`, // 일정 시간 범위
+      `${moment(start).format("A h:mm")} - ${moment(end).format("A h:mm")}`,
   };
 
   return (
     <div className="schedule-main-container">
       <div style={{ height: "600px" }}>
-        {/* React Big Calendar 컴포넌트 */}
         <Calendar
-          localizer={localizer} // 날짜 형식 설정
-          events={scheduleList} // 표시할 일정 목록
-          startAccessor="start" // 시작 시간 속성명
-          endAccessor="end" // 종료 시간 속성명
-          culture="ko" // 한국어 설정
-          formats={formats} // 날짜 표시 형식
-          selectable // 날짜 선택 가능하게
-          onSelectSlot={clickEmptySpace} // 빈 공간 클릭 시 실행할 함수
-          onSelectEvent={clickSchedule} // 일정 클릭 시 실행할 함수
+          localizer={localizer}
+          events={scheduleList}
+          startAccessor="start"
+          endAccessor="end"
+          culture="ko"
+          formats={formats}
+          selectable
+          onSelectSlot={clickEmptySpace}
+          onSelectEvent={clickSchedule}
           messages={{
-            // 버튼 텍스트 한글화
             next: "다음",
             previous: "이전",
             today: "오늘",
@@ -340,17 +427,17 @@ const Schedule = () => {
             date: "날짜",
             time: "시간",
             event: "일정",
+            noEventsInRange: "이 기간에 일정이 없습니다.",
           }}
         />
       </div>
 
       {/* 일정 등록 모달 (showModal이 true일 때만 표시) */}
+      {/* 제목 입력 */}
       {showModal && (
         <div className="schedule-modal-overlay">
           <div className="schedule-modal">
             <h2 className="schedule-modal-title">일정 추가</h2>
-
-            {/* 제목 입력 */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">제목</label>
               <input
@@ -359,16 +446,22 @@ const Schedule = () => {
                 name="title"
                 value={newSchedule.title}
                 onChange={changeTitle}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    saveSchedule(); // 엔터 누르면 저장
+                  } else if (e.key === "Escape") {
+                    closeModal(); // ESC 누르면 닫기
+                  }
+                }}
               />
             </div>
 
-            {/* 시작 시간 입력 */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">시작</label>
               <input
                 className="schedule-modal-input"
                 type="datetime-local"
-                min={moment(today).format("YYYY-MM-DDTHH:mm")} // 과거 날짜 선택 불가
+                min={moment(new Date()).format("YYYY-MM-DDTHH:mm")}
                 value={moment(newSchedule.start).format("YYYY-MM-DDTHH:mm")}
                 onChange={(e) =>
                   setNewSchedule({
@@ -376,16 +469,22 @@ const Schedule = () => {
                     start: new Date(e.target.value),
                   })
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    saveSchedule();
+                  } else if (e.key === "Escape") {
+                    closeModal();
+                  }
+                }}
               />
             </div>
 
-            {/* 종료 시간 입력 */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">종료</label>
               <input
                 className="schedule-modal-input"
                 type="datetime-local"
-                min={moment(newSchedule.start).format("YYYY-MM-DDTHH:mm")} // 시작 시간 이후만 선택 가능
+                min={moment(newSchedule.start).format("YYYY-MM-DDTHH:mm")}
                 value={moment(newSchedule.end).format("YYYY-MM-DDTHH:mm")}
                 onChange={(e) =>
                   setNewSchedule({
@@ -393,10 +492,16 @@ const Schedule = () => {
                     end: new Date(e.target.value),
                   })
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    saveSchedule();
+                  } else if (e.key === "Escape") {
+                    closeModal();
+                  }
+                }}
               />
             </div>
 
-            {/* 버튼 영역 */}
             <div className="schedule-modal-buttons">
               <button
                 className="schedule-modal-save-btn"
@@ -416,12 +521,12 @@ const Schedule = () => {
       )}
 
       {/* 상세보기 모달 (showDetailModal이 true이고 selectedSchedule이 있을 때만 표시) */}
+      {/* 제목 입력 (수정 가능) */}
       {showDetailModal && selectedSchedule && (
         <div className="schedule-modal-overlay">
           <div className="schedule-modal">
             <h2 className="schedule-modal-title">일정 상세</h2>
 
-            {/* 제목 입력 (수정 가능) */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">제목</label>
               <input
@@ -434,15 +539,22 @@ const Schedule = () => {
                     title: e.target.value,
                   })
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    updateSchedule(); // 엔터 누르면 수정
+                  } else if (e.key === "Escape") {
+                    closeDetailModal(); // ESC 누르면 닫기
+                  }
+                }}
               />
             </div>
-
             {/* 시작 시간 입력 (수정 가능) */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">시작</label>
               <input
                 className="schedule-modal-input"
                 type="datetime-local"
+                min={moment(new Date()).format("YYYY-MM-DDTHH:mm")}
                 value={moment(selectedSchedule.start).format(
                   "YYYY-MM-DDTHH:mm"
                 )}
@@ -452,15 +564,22 @@ const Schedule = () => {
                     start: new Date(e.target.value),
                   })
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    updateSchedule();
+                  } else if (e.key === "Escape") {
+                    closeDetailModal();
+                  }
+                }}
               />
             </div>
-
             {/* 종료 시간 입력 (수정 가능) */}
             <div className="schedule-modal-field">
               <label className="schedule-modal-label">종료</label>
               <input
                 className="schedule-modal-input"
                 type="datetime-local"
+                min={moment(selectedSchedule.start).format("YYYY-MM-DDTHH:mm")}
                 value={moment(selectedSchedule.end).format("YYYY-MM-DDTHH:mm")}
                 onChange={(e) =>
                   setSelectedSchedule({
@@ -468,10 +587,16 @@ const Schedule = () => {
                     end: new Date(e.target.value),
                   })
                 }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    updateSchedule();
+                  } else if (e.key === "Escape") {
+                    closeDetailModal();
+                  }
+                }}
               />
             </div>
 
-            {/* 버튼 영역 */}
             <div className="schedule-modal-buttons">
               <button
                 className="schedule-modal-save-btn"
@@ -479,7 +604,12 @@ const Schedule = () => {
               >
                 수정
               </button>
-              <button className="schedule-modal-cancel-btn">삭제</button>
+              <button
+                className="schedule-modal-cancel-btn"
+                onClick={scheduleDelete}
+              >
+                삭제
+              </button>
               <button
                 className="schedule-modal-cancel-btn"
                 onClick={closeDetailModal}

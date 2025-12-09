@@ -68,6 +68,7 @@ const Main = () => {
       id: 3,
       title: "Project #3",
       description: "계획표",
+      image: `${import.meta.env.BASE_URL}profile_images/solo-schedule.jpg`,
       category: "Solo-project",
       path: "/projects/solo/schedule",
     },
