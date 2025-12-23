@@ -31,12 +31,12 @@ const Main = () => {
   ]);
 
   const projectCategories = [
-    { name: "All", count: 3 },
-    { name: "Solo-project", count: 1 },
-    { name: "Team-project", count: 2 },
+    { name: "전체", count: 3 },
+    { name: "개인 프로젝트", count: 1 },
+    { name: "팀 프로젝트", count: 2 },
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("전체");
 
   const selectCategory = (categoryName) => {
     setSelectedCategory(categoryName);
@@ -45,32 +45,32 @@ const Main = () => {
   const projects = [
     {
       id: 1,
-      title: "Project #1",
+      title: "프로젝트 #1",
       description: "새미 프로젝트 HTML, CSS",
       image: `${import.meta.env.BASE_URL}profile_images/semi-project.jpg`,
-      category: "Team-project",
+      category: "팀 프로젝트",
       path: "/projects/team/semi",
     },
     {
       id: 2,
-      title: "Project #2",
+      title: "프로젝트 #2",
       description: "파이널 프로젝트 HTML, CSS",
       image: `${import.meta.env.BASE_URL}profile_images/final-project.jpg`,
-      category: "Team-project",
+      category: "팀 프로젝트",
       path: "/projects/team/final",
     },
     {
       id: 3,
-      title: "Project #3",
+      title: "프로젝트 #3",
       description: "계획표",
       image: `${import.meta.env.BASE_URL}profile_images/solo-schedule.jpg`,
-      category: "Solo-project",
+      category: "개인 프로젝트",
       path: "/projects/solo/schedule",
     },
   ];
 
   const filteredProjects =
-    selectedCategory === "All"
+    selectedCategory === "전체"
       ? projects
       : projects.filter((project) => project.category === selectedCategory);
 
@@ -113,9 +113,9 @@ const Main = () => {
         </div>
       </section>
 
-      {/* Why Developer 섹션 */}
+      {/* 개발자가 된 이유 섹션 */}
       <section id="why-developer" className="section max-container">
-        <h2 className="title">Why Developer?</h2>
+        <h2 className="title">개발자가 된 이유</h2>
         <div className="why-content">
           <p className="why-text">
             자영업을 하면서 성장의 한계를 느꼈습니다. 매일 반복되는 일상 속에서
@@ -135,11 +135,11 @@ const Main = () => {
         </div>
       </section>
 
-      {/* My Journey 섹션 */}
+      {/* 학습 과정 섹션 */}
       <section id="journey" className="section">
         <div className="max-container">
-          <h2 className="title">My Journey</h2>
-          <p className="description">학습 과정</p>
+          <h2 className="title">학습 과정</h2>
+          <p className="description">어떻게 배웠는가</p>
 
           <div className="journey-content">
             <div className="journey-item">
@@ -172,19 +172,19 @@ const Main = () => {
         </div>
       </section>
 
-      {/* About Me 섹션 */}
+      {/* 소개 섹션 */}
       <section id="about" className="section max-container">
-        <h2 className="title">About Me</h2>
+        <h2 className="title">소개</h2>
 
         <ul className="majors">
           <li className="major">
             <FontAwesomeIcon className="major_icon" icon={faHtml5} />
-            <p className="major_title">Front-end</p>
+            <p className="major_title">프론트엔드</p>
             <p>ReactJs, JavaScript, HTML, CSS</p>
           </li>
           <li className="major">
             <FontAwesomeIcon className="major_icon" icon={faServer} />
-            <p className="major_title">Back-end</p>
+            <p className="major_title">백엔드</p>
             <p>Java, SpringBoot, MyBatis</p>
           </li>
         </ul>
@@ -201,11 +201,11 @@ const Main = () => {
         </ul>
       </section>
 
-      {/* 스킬 섹션 */}
+      {/* 기술 스택 섹션 */}
       <section id="skills" className="section">
         <div className="max-container">
-          <h2 className="title">My Skills</h2>
-          <p className="description">Skills & Attributes</p>
+          <h2 className="title">기술 스택</h2>
+          <p className="description">보유 기술</p>
 
           {/* 레벨 설명 */}
           <div className="skill-level-guide">
@@ -225,7 +225,7 @@ const Main = () => {
 
           <div className="skills">
             <section className="skills_coding">
-              <h3 className="skills_title">Coding Skills</h3>
+              <h3 className="skills_title">코딩 스킬</h3>
               <ul>
                 {codingSkills.map((skill, index) => (
                   <li key={index}>
@@ -249,7 +249,7 @@ const Main = () => {
             </section>
 
             <section className="skills_tools">
-              <h3 className="skills_title">Tools</h3>
+              <h3 className="skills_title">개발 도구</h3>
               <ul>
                 <li>Visual Studio Code</li>
                 <li>Intellij</li>
@@ -258,7 +258,7 @@ const Main = () => {
             </section>
 
             <section className="skills_etc">
-              <h3 className="skills_title">Environment</h3>
+              <h3 className="skills_title">개발 환경</h3>
               <ul>
                 <li>Git</li>
                 <li>AWS EC2</li>
@@ -269,10 +269,10 @@ const Main = () => {
         </div>
       </section>
 
-      {/* Problem Solving 섹션 */}
+      {/* 문제 해결 섹션 */}
       <section id="problem-solving" className="section max-container">
-        <h2 className="title">Problem Solving</h2>
-        <p className="description">문제 해결 경험</p>
+        <h2 className="title">문제 해결 경험</h2>
+        <p className="description">실제 경험</p>
 
         <div className="problem-content">
           <h3 className="problem-title">상태 관리 오류 해결</h3>
@@ -292,11 +292,11 @@ const Main = () => {
         </div>
       </section>
 
-      {/* Future Goals 섹션 */}
+      {/* 앞으로의 목표 섹션 */}
       <section id="goals" className="section">
         <div className="max-container">
-          <h2 className="title">Future Goals</h2>
-          <p className="description">앞으로의 목표</p>
+          <h2 className="title">앞으로의 목표</h2>
+          <p className="description">나아갈 방향</p>
 
           <div className="goals-content">
             <div className="goal-item">
@@ -323,8 +323,8 @@ const Main = () => {
       {/* 프로젝트 섹션 */}
       <section id="work" className="section">
         <div className="max-container">
-          <h2 className="title">My Work</h2>
-          <p className="description">Projects</p>
+          <h2 className="title">프로젝트</h2>
+          <p className="description">작업물</p>
 
           <ul className="categories">
             {projectCategories.map((category) => (
