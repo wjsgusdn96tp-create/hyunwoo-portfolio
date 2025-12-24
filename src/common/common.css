@@ -191,6 +191,7 @@ button:focus {
 .home_title--strong {
   color: #03e8f9;
   background: linear-gradient(90deg, #03e8f9, #02b8c5);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
