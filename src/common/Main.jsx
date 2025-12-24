@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Main = () => {
+  // 페이지 로드시 URL의 해시값으로 스크롤 이동
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
@@ -12,7 +13,6 @@ const Main = () => {
     const section = document.querySelector(hash);
     if (section) {
       const top = section.getBoundingClientRect().top + window.scrollY;
-
       window.scrollTo({
         top,
         behavior: "smooth",
@@ -21,27 +21,31 @@ const Main = () => {
   }, []);
 
   // 코딩 기술 목록
-  const [codingSkills, setCodingSkills] = useState([
+  const codingSkills = [
     { name: "ReactJs", level: "중" },
     { name: "JavaScript", level: "중" },
     { name: "HTML/CSS", level: "중" },
     { name: "Java", level: "중" },
     { name: "SpringBoot", level: "중" },
     { name: "MyBatis", level: "중" },
-  ]);
+  ];
 
+  // 프로젝트 카테고리 목록
   const projectCategories = [
     { name: "전체", count: 3 },
     { name: "개인 프로젝트", count: 1 },
     { name: "팀 프로젝트", count: 2 },
   ];
 
+  // 선택된 카테고리 상태
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
-  const selectCategory = (categoryName) => {
+  // 카테고리 변경 함수
+  const changeCategory = (categoryName) => {
     setSelectedCategory(categoryName);
   };
 
+  // 프로젝트 목록
   const projects = [
     {
       id: 1,
@@ -69,6 +73,7 @@ const Main = () => {
     },
   ];
 
+  // 선택된 카테고리에 따라 프로젝트 필터링
   const filteredProjects =
     selectedCategory === "전체"
       ? projects
@@ -98,6 +103,7 @@ const Main = () => {
             싶습니다.
           </p>
         </div>
+        {/* 섹션 구분선 SVG */}
         <div className="home_divider">
           <svg
             data-name="Layer 1"
@@ -176,6 +182,7 @@ const Main = () => {
       <section id="about" className="section max-container">
         <h2 className="title">소개</h2>
 
+        {/* 전공 분야 */}
         <ul className="majors">
           <li className="major">
             <FontAwesomeIcon className="major_icon" icon={faHtml5} />
@@ -189,6 +196,7 @@ const Main = () => {
           </li>
         </ul>
 
+        {/* 교육 이력 */}
         <ul className="jobs">
           <li className="job">
             <div>
@@ -224,6 +232,7 @@ const Main = () => {
           </div>
 
           <div className="skills">
+            {/* 코딩 스킬 */}
             <section className="skills_coding">
               <h3 className="skills_title">코딩 스킬</h3>
               <ul>
@@ -231,6 +240,7 @@ const Main = () => {
                   <li key={index}>
                     <div>
                       <span>{skill.name}</span>
+                      {/* 스킬 레벨 표시 */}
                       <div className="skill_levels">
                         <span className={skill.level === "하" ? "active" : ""}>
                           하
@@ -248,6 +258,7 @@ const Main = () => {
               </ul>
             </section>
 
+            {/* 개발 도구 */}
             <section className="skills_tools">
               <h3 className="skills_title">개발 도구</h3>
               <ul>
@@ -257,6 +268,7 @@ const Main = () => {
               </ul>
             </section>
 
+            {/* 개발 환경 */}
             <section className="skills_etc">
               <h3 className="skills_title">개발 환경</h3>
               <ul>
@@ -269,26 +281,40 @@ const Main = () => {
         </div>
       </section>
 
-      {/* 문제 해결 섹션 */}
-      <section id="problem-solving" className="section max-container">
-        <h2 className="title">문제 해결 경험</h2>
-        <p className="description">실제 경험</p>
+      {/* 기술 선택 이유 섹션 */}
+      <section id="tech-choice" className="section max-container">
+        <h2 className="title">기술 선택 이유</h2>
+        <p className="description">왜 이 기술들을 사용했는가</p>
 
-        <div className="problem-content">
-          <h3 className="problem-title">상태 관리 오류 해결</h3>
-          <p className="problem-text">
-            프로젝트 막바지에 데이터 렌더링 오류가 계속 발생했습니다. 이틀 동안
-            자료를 찾아보고 직접 해결을 시도했지만 원인을 찾을 수 없었습니다.
-          </p>
-          <p className="problem-text">
-            문제점을 정리해서 현직 개발자에게 질문했고, State가 비동기로
-            업데이트된다는 특성을 고려하지 않았다는 것을 알게 되었습니다.
-          </p>
-          <p className="problem-text">
-            useEffect와 의존성 배열을 사용해서 구조를 바꿨고, 오류를 해결할 수
-            있었습니다. 이 경험을 통해 문제의 근본 원인을 분석하는 능력을
-            키웠습니다.
-          </p>
+        <div className="tech-choice-content">
+          <div className="tech-choice-item">
+            <h3 className="tech-choice-title">React</h3>
+            <p className="tech-choice-text">
+              처음엔 학원 커리큘럼으로 배웠지만, 사용하면서 컴포넌트 단위로
+              나눠서 작업하니까 코드 관리가 편하다는 걸 느꼈습니다. 같은 UI를
+              여러 곳에서 재사용할 수 있어서 효율적이었고, State가 바뀌면 화면이
+              자동으로 업데이트되는 부분이 편리했습니다.
+            </p>
+          </div>
+
+          <div className="tech-choice-item">
+            <h3 className="tech-choice-title">SpringBoot</h3>
+            <p className="tech-choice-text">
+              Java를 배우고 Spring을 거쳐서 SpringBoot를 사용했습니다. Spring에
+              비해 설정이 훨씬 간단했고, 서버를 바로 실행할 수 있어서 개발하기
+              편했습니다. MyBatis를 연결해서 데이터베이스 작업하는 것도 구조가
+              명확해서 이해하기 좋았습니다.
+            </p>
+          </div>
+
+          <div className="tech-choice-item">
+            <h3 className="tech-choice-title">Oracle</h3>
+            <p className="tech-choice-text">
+              학원에서 Oracle로 배웠고, 팀 프로젝트도 Oracle로 진행했습니다.
+              대용량 데이터를 다룰 때 안정적이라고 배웠고, 실제로 프로젝트에서
+              복잡한 쿼리를 작성할 때 성능이 좋았습니다.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -326,6 +352,7 @@ const Main = () => {
           <h2 className="title">프로젝트</h2>
           <p className="description">작업물</p>
 
+          {/* 카테고리 필터 버튼 */}
           <ul className="categories">
             {projectCategories.map((category) => (
               <li key={category.name}>
@@ -335,21 +362,19 @@ const Main = () => {
                       ? "category--selected"
                       : ""
                   }`}
-                  onClick={() => selectCategory(category.name)}
+                  onClick={() => changeCategory(category.name)}
                 >
-                  {category.name}{" "}
+                  {category.name}
                   <span className="category_count">{category.count}</span>
                 </button>
               </li>
             ))}
           </ul>
 
+          {/* 필터링된 프로젝트 목록 */}
           <ul className="projects">
-            {filteredProjects.map((project, index) => (
-              <li
-                className="project"
-                key={project.id || `placeholder-${index}`}
-              >
+            {filteredProjects.map((project) => (
+              <li className="project" key={project.id}>
                 <Link to={project.path}>
                   <img
                     src={project.image}

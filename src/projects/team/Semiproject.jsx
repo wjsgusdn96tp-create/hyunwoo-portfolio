@@ -264,7 +264,217 @@ public int insertOrderTbl(OrderTbl otb) {
           </pre>
         </div>
       </section>
+      {/* 구매 내역 조회 섹션 다음에 추가 */}
 
+      {/* 로그인 세션 관리 */}
+      <section className="semi-project-section">
+        <h2 className="semi-section-title">로그인 세션 관리</h2>
+
+        <div className="semi-my-role">
+          <h3 className="semi-role-title">세션으로 회원 정보 관리</h3>
+          <p className="semi-role-desc">
+            스프링의 @SessionAttribute를 사용하여 로그인한 회원 정보를
+            가져옵니다. 로그인하지 않은 사용자는 자동으로 로그인 페이지로
+            이동합니다.
+          </p>
+        </div>
+
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">핵심 코드 - Controller</h4>
+          <pre className="semi-code-block">
+            {`// 장바구니 페이지 - 로그인 체크
+@GetMapping(value="/DrumtongCart")
+public String cartPage(Model model, String shopName,
+    @SessionAttribute(required = false) Member member) {
+    
+    // 로그인 안 했으면 로그인 페이지로 이동
+    if(member == null) {
+        return "redirect:/member/loginFrm";
+    }
+    
+    // 세션에서 회원번호 가져오기
+    int memberNo = member.getMemberNo();
+    
+    // 회원의 멤버십 등급과 할인율 조회
+    VipMember vm = orderService.insertVip(memberNo);
+    
+    // 회원의 장바구니 목록 조회
+    List list = orderService.selectCartList(memberNo, shopName);
+    
+    model.addAttribute("vm", vm);
+    model.addAttribute("list", list);
+    
+    return "order/DrumtongCart";
+}`}
+          </pre>
+        </div>
+
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">
+            핵심 코드 - 멤버십 할인율 조회 SQL
+          </h4>
+          <pre className="semi-code-block">
+            {`-- 회원의 현재 멤버십 등급과 할인율 조회
+SELECT * FROM (
+    SELECT 
+        member_no,
+        member_nickname,
+        membership_grade,
+        membership_level,
+        percent,
+        membership_recode_last
+    FROM member_tbl
+    LEFT JOIN membership_recode_tbl 
+        ON membership_recode_nickname = member_nickname
+    LEFT JOIN membership_tbl 
+        ON membership_recode_member_no = membership_level
+    WHERE sysdate BETWEEN membership_recode_start 
+        AND membership_recode_last
+        AND member_no = #{memberNo}
+    ORDER BY percent DESC NULLS LAST
+)
+WHERE rownum = 1`}
+          </pre>
+        </div>
+
+        <p className="semi-project-desc">
+          로그인한 회원의 멤버십 등급(일반/실버/골드/VIP)에 따라 자동으로
+          할인율이 적용됩니다. 세션에 저장된 회원 정보로 장바구니와 주문 기능을
+          안전하게 처리합니다.
+        </p>
+      </section>
+
+      {/* 결제 API 연동 */}
+      <section className="semi-project-section">
+        <h2 className="semi-section-title">결제 시스템 구현</h2>
+
+        <div className="semi-my-role">
+          <h3 className="semi-role-title">아임포트 결제 API 연동</h3>
+          <p className="semi-role-desc">
+            아임포트 결제 API를 사용하여 실제 테스트 결제가 가능하도록
+            구현했습니다. 결제 성공 시 장바구니 데이터가 주문 테이블로 이동하며,
+            트랜잭션으로 데이터 일관성을 보장합니다.
+          </p>
+        </div>
+
+        <h4 className="semi-small-title">결제 흐름</h4>
+        <div className="semi-challenge">
+          <p className="semi-challenge-desc">
+            <strong>1단계:</strong> 사용자가 구매하기 버튼 클릭
+            <br />
+            <strong>2단계:</strong> 아임포트 결제 창 표시 (카드 결제)
+            <br />
+            <strong>3단계:</strong> 결제 성공 시 서버로 결제 정보 전송
+            <br />
+            <strong>4단계:</strong> 장바구니 → 주문 테이블로 데이터 이동
+            <br />
+            <strong>5단계:</strong> 장바구니 데이터 삭제
+            <br />
+            <strong>6단계:</strong> 구매 내역 페이지에서 확인 가능
+          </p>
+        </div>
+
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">
+            핵심 코드 - 결제 요청 (JavaScript)
+          </h4>
+          <pre className="semi-code-block">
+            {`// 아임포트 결제 API 초기화
+IMP.init("imp57046341");
+
+// 결제 요청
+IMP.request_pay({
+    channelKey: "channel-key-d17f31e0-d991-403f-bc94-3f28deb3cce8",
+    pay_method: "card",
+    merchant_uid: "order_no_" + dateString, // 주문번호
+    name: productName,                       // 상품명
+    amount: totalprice,                      // 결제금액
+    buyer_email: "DromTong@naver.com",
+    buyer_name: "드럼통코리아 주식회사",
+    buyer_tel: "1533-1212"
+}, function (rsp) {
+    if(rsp.success) {
+        // 결제 성공 시 서버로 주문 저장 요청
+        $.ajax({
+            url: "/order/pay",
+            type: "post",
+            data: { shopName: shopName },
+            success: function () {
+                alert("구매 성공");
+                location.href = "/";
+            },
+            error: function() {
+                alert("구매 실패");
+            }
+        });
+    } else {
+        alert("구매 실패");
+    }
+});`}
+          </pre>
+        </div>
+
+        <div className="semi-crud-box">
+          <h4 className="semi-code-label">
+            핵심 코드 - 주문 저장 Service (@Transactional)
+          </h4>
+          <pre className="semi-code-block">
+            {`@Transactional
+public int insertOrderTbl(OrderTbl otb) {
+    // 1. 주문번호 생성
+    int orderNo = orderDao.getorderNo();
+    otb.setOrderNo(orderNo);
+    
+    int memberNo = otb.getMemberNo();
+    String shopName = otb.getShopName();
+    
+    HashMap<String, Object> param = new HashMap<>();
+    param.put("memberNo", memberNo);
+    param.put("shopName", shopName);
+    
+    // 2. 주문 테이블에 저장
+    int orderTbl = orderDao.insertOrderTbl(otb);
+    
+    // 3. 장바구니 데이터 조회
+    List<CartItem> list = orderDao.selectCartList(param);
+    
+    // 4. 장바구니 → 주문 상세 테이블로 데이터 이동
+    for(int i = 0; i < list.size(); i++) {
+        CartItem o = list.get(i);
+        DetailsTbl dtl = new DetailsTbl();
+        
+        // 장바구니 데이터를 주문 상세로 복사
+        dtl.setCupChoice(o.getCupChoice());
+        dtl.setCupSize(o.getCupSize());
+        dtl.setCount(o.getCount());
+        dtl.setProductNo(o.getProductNo());
+        dtl.setOrderNo(orderNo);
+        dtl.setPay(o.getPay());
+        
+        // 주문 상세 테이블에 저장
+        int resultDt = orderDao.insertDetailsTbl(dtl);
+    }
+    
+    // 5. 장바구니 데이터 삭제
+    int result = orderDao.deleteCart(param);
+    
+    return result;
+}`}
+          </pre>
+        </div>
+
+        <div className="semi-challenge">
+          <h3 className="semi-challenge-title">트랜잭션 처리</h3>
+          <p className="semi-challenge-desc">
+            <strong>문제:</strong> 결제 완료 후 장바구니 데이터를 주문 테이블로
+            이동하는 과정에서 오류가 발생하면 데이터 불일치가 생길 수 있습니다.
+            <br />
+            <strong>해결:</strong> @Transactional을 사용하여 모든 작업이
+            성공하면 커밋, 하나라도 실패하면 롤백되도록 처리했습니다. 이를 통해
+            데이터 일관성을 보장합니다.
+          </p>
+        </div>
+      </section>
       {/* GitHub 링크 */}
       <section className="semi-project-section">
         <div className="semi-github-box">

@@ -13,7 +13,7 @@ const Header = () => {
     { name: "학습 과정", to: "#journey" },
     { name: "소개", to: "#about" },
     { name: "기술 스택", to: "#skills" },
-    { name: "문제 해결", to: "#problem-solving" },
+    { name: "기술 선택 이유", to: "#tech-choice" },
     { name: "목표", to: "#goals" },
     { name: "프로젝트", to: "#work" },
   ];
