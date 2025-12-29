@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Main = () => {
-  // 페이지 로드시 URL의 해시값으로 스크롤 이동
   useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
@@ -20,7 +19,6 @@ const Main = () => {
     }
   }, []);
 
-  // 코딩 기술 목록
   const codingSkills = [
     { name: "ReactJs", level: "중" },
     { name: "JavaScript", level: "중" },
@@ -30,22 +28,18 @@ const Main = () => {
     { name: "MyBatis", level: "중" },
   ];
 
-  // 프로젝트 카테고리 목록
   const projectCategories = [
     { name: "전체", count: 3 },
     { name: "개인 프로젝트", count: 1 },
     { name: "팀 프로젝트", count: 2 },
   ];
 
-  // 선택된 카테고리 상태
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
-  // 카테고리 변경 함수
   const changeCategory = (categoryName) => {
     setSelectedCategory(categoryName);
   };
 
-  // 프로젝트 목록
   const projects = [
     {
       id: 1,
@@ -73,7 +67,6 @@ const Main = () => {
     },
   ];
 
-  // 선택된 카테고리에 따라 프로젝트 필터링
   const filteredProjects =
     selectedCategory === "전체"
       ? projects
@@ -81,7 +74,6 @@ const Main = () => {
 
   return (
     <main>
-      {/* 홈 섹션 */}
       <section id="home">
         <div className="home_container">
           <img
@@ -97,13 +89,11 @@ const Main = () => {
             </strong>
           </h2>
           <p className="home_description">
-            늦게 시작했지만 누구보다 진지하게 개발에 임하고 있습니다. 모르는
-            부분을 그대로 두지 않고 끝까지 해결하는 것을 가장 중요한 태도로
-            생각합니다. 작은 기능 하나도 정확히 이해하며 만드는 개발자가 되고
-            싶습니다.
+            누구보다 진지하게 개발에 임하고 있습니다. 모르는 부분을 그대로 두지
+            않고 끝까지 해결하는 것을 가장 중요한 태도로 생각합니다. 작은 기능
+            하나도 정확히 이해하며 만드는 개발자가 되고 싶습니다.
           </p>
         </div>
-        {/* 섹션 구분선 SVG */}
         <div className="home_divider">
           <svg
             data-name="Layer 1"
@@ -119,70 +109,60 @@ const Main = () => {
         </div>
       </section>
 
-      {/* 개발자가 된 이유 섹션 */}
       <section id="why-developer" className="section max-container">
         <h2 className="title">개발자가 된 이유</h2>
         <div className="why-content">
           <p className="why-text">
-            자영업을 하면서 성장의 한계를 느꼈습니다. 매일 반복되는 일상 속에서
-            더 이상 발전할 수 없다는 생각이 들었고, 새로운 분야를 찾고
-            있었습니다.
+            오프라인 비즈니스를 운영하면서 물리적 공간의 한계를 느꼈습니다.
+            새로운 분야를 찾던 중 개발을 알게 되었고, 배워볼 만한 가치가 있다고
+            판단했습니다.
           </p>
           <p className="why-text">
-            개발이라는 분야는 끊임없이 배우고 성장할 수 있는 곳입니다. 새로운
-            기술이 계속 나오고, 문제를 해결하는 방법도 다양합니다. 시대 변화
-            속에서 도태되지 않고 계속 발전할 수 있다는 점이 가장 큰
-            매력이었습니다.
+            처음에는 HTML 태그 하나 작성하는 것도 어려웠지만, 지금은 웹
+            애플리케이션을 만들 수 있게 되었습니다. 배울수록 할 수 있는 것이
+            늘어나는 과정이 흥미로웠고, 이 분야에서 계속 성장할 수 있겠다는
+            확신이 들었습니다.
           </p>
           <p className="why-text">
-            늦게 시작했지만 포기하지 않고 꾸준히 노력하면 반드시 성장할 수
-            있다고 믿습니다.
+            부족한 부분을 채우기 위해 꾸준히 공부하고 있습니다.
           </p>
         </div>
       </section>
 
-      {/* 학습 과정 섹션 */}
       <section id="journey" className="section">
         <div className="max-container">
           <h2 className="title">학습 과정</h2>
-          <p className="description">어떻게 배웠는가</p>
-
+          <p className="description">어떻게 학습했는가</p>
           <div className="journey-content">
             <div className="journey-item">
-              <h3 className="journey-title">독학과 반복 학습</h3>
+              <h3 className="journey-title">반복 학습</h3>
               <p className="journey-text">
-                학원 수업만으로는 부족하다고 생각해서 강의 영상을 반복해서
-                봤습니다. 이해가 안 되는 부분은 유료 강의까지 찾아보며 개념을
-                확실하게 만들었습니다.
+                수업만으로는 완전히 이해하기 어려운 부분이 많았습니다. 강의
+                영상을 반복해서 보고, 필요하면 유료 강의도 찾아보며 개념을
+                확실히 이해하려고 노력했습니다.
               </p>
             </div>
-
             <div className="journey-item">
-              <h3 className="journey-title">직접 만들며 배우기</h3>
+              <h3 className="journey-title">실습 위주 학습</h3>
               <p className="journey-text">
-                강의만 듣지 않고 직접 코드를 작성하며 배웠습니다. 같은 기능도
-                여러 번 만들어보면서 왜 이렇게 작동하는지 이해하려고
-                노력했습니다.
+                이론만 공부하지 않고 직접 코드를 작성하며 학습했습니다. 같은
+                기능이라도 여러 번 구현해보면서 동작 원리를 이해하는 데
+                집중했습니다.
               </p>
             </div>
-
             <div className="journey-item">
-              <h3 className="journey-title">현직 개발자에게 배우기</h3>
+              <h3 className="journey-title">실무 경험 공유</h3>
               <p className="journey-text">
-                모르는 것이 생기면 현직 개발자 친구에게 적극적으로 질문했습니다.
-                실무에서 어떻게 문제를 해결하는지, 어떤 방식으로 코드를
-                작성하는지 조언을 들으며 실무 감각을 키웠습니다.
+                현직 개발자에게 코드 리뷰와 조언을 받았습니다. 실무에서 어떻게
+                문제를 해결하는지 배우며 실전 감각을 익혔습니다.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 소개 섹션 */}
       <section id="about" className="section max-container">
         <h2 className="title">소개</h2>
-
-        {/* 전공 분야 */}
         <ul className="majors">
           <li className="major">
             <FontAwesomeIcon className="major_icon" icon={faHtml5} />
@@ -195,8 +175,6 @@ const Main = () => {
             <p>Java, SpringBoot, MyBatis</p>
           </li>
         </ul>
-
-        {/* 교육 이력 */}
         <ul className="jobs">
           <li className="job">
             <div>
@@ -209,13 +187,10 @@ const Main = () => {
         </ul>
       </section>
 
-      {/* 기술 스택 섹션 */}
       <section id="skills" className="section">
         <div className="max-container">
           <h2 className="title">기술 스택</h2>
           <p className="description">보유 기술</p>
-
-          {/* 레벨 설명 */}
           <div className="skill-level-guide">
             <div className="level-item">
               <span className="level-badge level-high">상</span>
@@ -230,9 +205,7 @@ const Main = () => {
               <p>기본 문법을 이해하고 간단한 코드 작성 가능</p>
             </div>
           </div>
-
           <div className="skills">
-            {/* 코딩 스킬 */}
             <section className="skills_coding">
               <h3 className="skills_title">코딩 스킬</h3>
               <ul>
@@ -240,7 +213,6 @@ const Main = () => {
                   <li key={index}>
                     <div>
                       <span>{skill.name}</span>
-                      {/* 스킬 레벨 표시 */}
                       <div className="skill_levels">
                         <span className={skill.level === "하" ? "active" : ""}>
                           하
@@ -257,8 +229,6 @@ const Main = () => {
                 ))}
               </ul>
             </section>
-
-            {/* 개발 도구 */}
             <section className="skills_tools">
               <h3 className="skills_title">개발 도구</h3>
               <ul>
@@ -267,92 +237,115 @@ const Main = () => {
                 <li>Oracle SQL Developer</li>
               </ul>
             </section>
-
-            {/* 개발 환경 */}
             <section className="skills_etc">
               <h3 className="skills_title">개발 환경</h3>
               <ul>
                 <li>Git</li>
                 <li>AWS EC2</li>
-                <li>Oracle Database</li>
+                <li>MySQL</li>
               </ul>
             </section>
           </div>
         </div>
       </section>
 
-      {/* 기술 선택 이유 섹션 */}
       <section id="tech-choice" className="section max-container">
-        <h2 className="title">기술 선택 이유</h2>
-        <p className="description">왜 이 기술들을 사용했는가</p>
-
+        <h2 className="title">기술 스택 선택 배경</h2>
+        <p className="description">사용 경험과 장점</p>
         <div className="tech-choice-content">
           <div className="tech-choice-item">
             <h3 className="tech-choice-title">React</h3>
             <p className="tech-choice-text">
-              처음엔 학원 커리큘럼으로 배웠지만, 사용하면서 컴포넌트 단위로
-              나눠서 작업하니까 코드 관리가 편하다는 걸 느꼈습니다. 같은 UI를
-              여러 곳에서 재사용할 수 있어서 효율적이었고, State가 바뀌면 화면이
-              자동으로 업데이트되는 부분이 편리했습니다.
+              컴포넌트 단위로 UI를 관리할 수 있어 재사용성이 높았습니다. State
+              변경 시 자동으로 화면이 업데이트되는 점이 편리했고, 코드 관리와
+              유지보수 측면에서 장점이 있다고 느꼈습니다.
             </p>
           </div>
-
           <div className="tech-choice-item">
             <h3 className="tech-choice-title">SpringBoot</h3>
             <p className="tech-choice-text">
-              Java를 배우고 Spring을 거쳐서 SpringBoot를 사용했습니다. Spring에
-              비해 설정이 훨씬 간단했고, 서버를 바로 실행할 수 있어서 개발하기
-              편했습니다. MyBatis를 연결해서 데이터베이스 작업하는 것도 구조가
-              명확해서 이해하기 좋았습니다.
+              Spring에 비해 초기 설정이 간소화되어 있어 빠르게 개발할 수
+              있었습니다. MyBatis와 연동하여 데이터베이스 작업을 처리할 때
+              구조가 명확해서 이해하기 좋았습니다.
             </p>
           </div>
-
           <div className="tech-choice-item">
-            <h3 className="tech-choice-title">Oracle</h3>
+            <h3 className="tech-choice-title">MySQL</h3>
             <p className="tech-choice-text">
-              학원에서 Oracle로 배웠고, 팀 프로젝트도 Oracle로 진행했습니다.
-              대용량 데이터를 다룰 때 안정적이라고 배웠고, 실제로 프로젝트에서
-              복잡한 쿼리를 작성할 때 성능이 좋았습니다.
+              개인 프로젝트 배포 시 Oracle의 비용 문제로 MySQL을 선택했습니다.
+              무료로 사용 가능하고, AWS 프리티어에서 RDS를 통해 쉽게 설정할 수
+              있었습니다. 학습 과정에서는 Oracle을 사용했지만, 배포 환경에서는
+              MySQL이 더 적합하다고 판단했습니다.
             </p>
+          </div>
+          <div className="tech-choice-item">
+            <h3 className="tech-choice-title">AWS EC2</h3>
+            <p className="tech-choice-text">
+              프리티어를 활용해 실제 배포 환경을 경험했습니다. 서버를 직접
+              설정하고 애플리케이션을 배포하면서 인프라 구성에 대한 이해도를
+              높일 수 있었습니다. 프론트엔드는 GitHub Pages로, 백엔드는 EC2로
+              분리 배포했습니다.
+            </p>
+          </div>
+        </div>
+        <div className="server-architecture">
+          <h3 className="architecture-title">서버 구성도</h3>
+          <div className="architecture-diagram">
+            <div className="architecture-layer">
+              <div className="architecture-box frontend">
+                <h4>프론트엔드</h4>
+                <p>GitHub Pages</p>
+                <p>React</p>
+              </div>
+            </div>
+            <div className="architecture-arrow">↓ HTTPS 통신 ↓</div>
+            <div className="architecture-layer">
+              <div className="architecture-box backend">
+                <h4>백엔드</h4>
+                <p>AWS EC2</p>
+                <p>SpringBoot</p>
+              </div>
+            </div>
+            <div className="architecture-arrow">↓ JDBC 연결 ↓</div>
+            <div className="architecture-layer">
+              <div className="architecture-box database">
+                <h4>데이터베이스</h4>
+                <p>MySQL</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 앞으로의 목표 섹션 */}
       <section id="goals" className="section">
         <div className="max-container">
-          <h2 className="title">앞으로의 목표</h2>
-          <p className="description">나아갈 방향</p>
-
+          <h2 className="title">목표</h2>
+          <p className="description">앞으로의 방향</p>
           <div className="goals-content">
             <div className="goal-item">
-              <h3 className="goal-title">단기 목표</h3>
+              <h3 className="goal-title">당장 해야 할 것</h3>
               <ul className="goal-list">
                 <li>SQLD 자격증 취득</li>
                 <li>실무 프로젝트 경험 쌓기</li>
-                <li>코드 리뷰 받으며 성장하기</li>
+                <li>코드 리뷰를 통한 실력 향상</li>
               </ul>
             </div>
-
             <div className="goal-item">
-              <h3 className="goal-title">장기 목표</h3>
+              <h3 className="goal-title">지향하는 개발자상</h3>
               <ul className="goal-list">
-                <li>문제를 끝까지 해결하는 개발자</li>
-                <li>코드를 설명할 수 있는 개발자</li>
-                <li>팀과 함께 성장하는 개발자</li>
+                <li>문제가 생겼을 때 끝까지 해결하는 개발자</li>
+                <li>작성한 코드를 명확하게 설명할 수 있는 개발자</li>
+                <li>팀원과 함께 성장하는 개발자</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 프로젝트 섹션 */}
       <section id="work" className="section">
         <div className="max-container">
           <h2 className="title">프로젝트</h2>
           <p className="description">작업물</p>
-
-          {/* 카테고리 필터 버튼 */}
           <ul className="categories">
             {projectCategories.map((category) => (
               <li key={category.name}>
@@ -370,8 +363,6 @@ const Main = () => {
               </li>
             ))}
           </ul>
-
-          {/* 필터링된 프로젝트 목록 */}
           <ul className="projects">
             {filteredProjects.map((project) => (
               <li className="project" key={project.id}>
