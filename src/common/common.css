@@ -1401,59 +1401,6 @@ button:focus {
 }
 
 /* Achievements 성과 섹션 */
-.achievements {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.achievement-item {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  padding: 2rem;
-  border-radius: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  transition: var(--transition);
-  text-align: center;
-}
-
-.achievement-item:hover {
-  transform: translateY(-10px);
-  border-color: var(--color-accent-blue);
-  box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
-}
-
-.achievement-count {
-  font-size: 3.5rem;
-  font-weight: 900;
-  background: linear-gradient(
-    135deg,
-    var(--color-accent-blue),
-    var(--color-accent-purple)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-}
-
-.achievement-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 0.5rem;
-}
-
-.achievement-description {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 500;
-}
-
 /* Strengths 강점 섹션 */
 #strengths {
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -1698,11 +1645,6 @@ button:focus {
 
 /* 반응형 - 추가 */
 @media screen and (max-width: 768px) {
-  .achievements {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
   .strengths-content {
     grid-template-columns: 1fr;
     gap: 2rem;

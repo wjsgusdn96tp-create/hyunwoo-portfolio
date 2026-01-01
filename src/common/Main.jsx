@@ -135,24 +135,6 @@ const Main = () => {
     },
   ];
 
-  const achievements = [
-    {
-      title: "팀 프로젝트 완수",
-      count: "2",
-      description: "세미 및 파이널 프로젝트 완료",
-    },
-    {
-      title: "개인 프로젝트 배포",
-      count: "1",
-      description: "AWS EC2 활용 실제 서비스 배포",
-    },
-    {
-      title: "학습 시간",
-      count: "1000+",
-      description: "KH 교육원 6개월 과정 이수",
-    },
-  ];
-
   return (
     <main>
       {/* 홈 섹션 */}
@@ -175,19 +157,6 @@ const Main = () => {
             않고 끝까지 해결하는 것을 가장 중요한 태도로 생각합니다. 작은 기능
             하나도 정확히 이해하며 만드는 개발자가 되고 싶습니다.
           </p>
-
-          {/* 주요 성과 */}
-          <div className="achievements">
-            {achievements.map((achievement, index) => (
-              <div key={index} className="achievement-item">
-                <div className="achievement-count">{achievement.count}</div>
-                <div className="achievement-title">{achievement.title}</div>
-                <div className="achievement-description">
-                  {achievement.description}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
         <div className="home_divider">
           <svg
